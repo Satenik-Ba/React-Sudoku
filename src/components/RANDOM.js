@@ -11,7 +11,7 @@ import { makeStyles } from '@mui/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 const useStyles = makeStyles({
   tableContainer: {
-    borderWidth: 2,
+    borderWidth: 5,
     borderColor: 'black',
     borderStyle: 'solid',
   },
