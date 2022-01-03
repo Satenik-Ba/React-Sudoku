@@ -1,6 +1,7 @@
 import './App.css';
-import Layout from './components/Layout'
+import Layout from './components/Layout';
 import Box from '@mui/material/Box';
+import Difficulty from './components/UI/Difficulty';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <header className="App-header">
         {/* <h1>Sudoku React App</h1> */}
         <Box>
+          <Difficulty />
           <Layout />
         </Box>
       </header>
