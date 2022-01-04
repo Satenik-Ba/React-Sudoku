@@ -53,18 +53,15 @@ export const generateBoard = (board) => {
 
 export const completedBoard = generateBoard(puzzle);
 
-const easy = Math.floor(Math.random() * 21 + 14)
-const medium = Math.floor(Math.random() * 28 + 20)
-const hard = Math.floor(Math.random() * 35 + 28 )
+const easy = Math.floor(Math.random() * 21 + 14);
+const medium = Math.floor(Math.random() * 28 + 20);
+const hard = Math.floor(Math.random() * 35 + 28);
 
 export const puzzleBoard = (board) => {
- 
   for (let i = 0; i < hard; i++) {
     let x = Math.floor(Math.random() * 9);
     let y = Math.floor(Math.random() * 9);
-    if(board[x][y] !== ''){
-      board[x][y] = ''
-    }
+    board[x][y] = null;
   }
   return board;
 };

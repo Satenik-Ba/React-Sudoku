@@ -15,18 +15,30 @@ const useStyles = makeStyles({
     borderCollapse: 'collapse',
   },
   tableRow: {
+    height: '3rem',
     '&:nth-of-type(3n):not(:last-child)': {
       borderBottom: '3px solid black',
     },
   },
 
   tableCell: {
-    width: '1rem',
-    height: '1rem',
+    width: '3rem',
+    height: '3rem',
+    padding: 0,
     border: '1px solid black',
     textAlign: 'center',
     '&:nth-of-type(3n):not(:last-child)': {
       borderRight: '3px solid black ',
+    },
+    '& input': {
+      border: 'none',
+      width: 'inherit',
+      height: 'inherit',
+      fontSize: '200%',
+      textAlign: 'center',
+      '&:focus': {
+        outline: 'none',
+      }
     },
   },
 });
@@ -46,9 +58,9 @@ const Layout = () => {
           {board.map((row, rowIndex) => {
             return (
               <TableRow key={rowIndex} className={classes.tableRow}>
-                {row.map((col, colIndex) => (
+                {row.map((cell, colIndex) => (
                   <TableCell className={classes.tableCell} key={colIndex}>
-                    {col}
+                    <input type="text" value={cell} disabled={Boolean(cell)}></input>
                   </TableCell>
                 ))}
               </TableRow>
