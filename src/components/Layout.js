@@ -4,7 +4,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
-import { puzzleBoard, completedBoard } from '../utils';
+import { puzzleBoard, completedBoard } from './utils';
+import Input from './Input';
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
       textAlign: 'center',
       '&:focus': {
         outline: 'none',
-      }
+      },
     },
   },
 });
@@ -58,9 +59,9 @@ const Layout = () => {
           {board.map((row, rowIndex) => {
             return (
               <TableRow key={rowIndex} className={classes.tableRow}>
-                {row.map((cell, colIndex) => (
-                  <TableCell className={classes.tableCell} key={colIndex}>
-                    <input type="text" value={cell} disabled={Boolean(cell)}></input>
+                {row.map((cell, cellIndex) => (
+                  <TableCell className={classes.tableCell} key={cellIndex}>
+                    <Input cell={cell}></Input>
                   </TableCell>
                 ))}
               </TableRow>
