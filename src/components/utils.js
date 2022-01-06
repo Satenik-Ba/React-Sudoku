@@ -29,18 +29,18 @@ const isValid = (board, row, col, cell) => {
   return true;
 };
 
-export const generateBoard = (board) => {
+export const generateBoard = (puzzle) => {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      if (board[i][j] === 0) {
+      if (puzzle[i][j] === 0) {
         for (let k = 0; k < 9; k++) {
           let cell = createRandomNum();
-          if (isValid(board, i, j, cell)) {
-            board[i][j] = cell;
-            if (generateBoard(board)) {
-              return board;
+          if (isValid(puzzle, i, j, cell)) {
+            puzzle[i][j] = cell;
+            if (generateBoard(puzzle)) {
+              return puzzle;
             } else {
-              board[i][j] = 0;
+              puzzle[i][j] = 0;
             }
           }
         }
@@ -48,15 +48,15 @@ export const generateBoard = (board) => {
       }
     }
   }
-  return board;
+  return puzzle;
 };
-
 export const completedBoard = generateBoard(puzzle);
 
 const easy = Math.floor(Math.random() * 21 + 14);
 const medium = Math.floor(Math.random() * 28 + 20);
 const hard = Math.floor(Math.random() * 35 + 28);
 
+// Remove numbers from the board based on difficulty
 export const puzzleBoard = (board) => {
   for (let i = 0; i < hard; i++) {
     let x = Math.floor(Math.random() * 9);
@@ -64,4 +64,19 @@ export const puzzleBoard = (board) => {
     board[x][y] = null;
   }
   return board;
+};
+
+export const checkInput = (input, completedBoard, rowIndex, cellIndex) => {
+  for (let i = 0; i < 9; i++) {
+    const k = 3 * Math.floor(rowIndex / 3) + Math.floor(i / 3);
+    const l = 3 * Math.floor(cellIndex / 3) + (i % 3);
+    if (
+      completedBoard[rowIndex][i] === input ||
+      completedBoard[i][cellIndex] === input ||
+      completedBoard[k][l] === input
+    ) {
+      return false;
+    }
+  }
+  return true; 
 };

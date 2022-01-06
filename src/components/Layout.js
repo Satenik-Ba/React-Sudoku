@@ -37,8 +37,10 @@ const useStyles = makeStyles({
       height: 'inherit',
       fontSize: '200%',
       textAlign: 'center',
+      'caret-color': 'rgba(0,0,0,0)',
       '&:focus': {
         outline: 'none',
+        backgroundColor: '#ffb4a2'
       },
     },
   },
@@ -61,7 +63,12 @@ const Layout = () => {
               <TableRow key={rowIndex} className={classes.tableRow}>
                 {row.map((cell, cellIndex) => (
                   <TableCell className={classes.tableCell} key={cellIndex}>
-                    <Input cell={cell}></Input>
+                    <Input
+                      cell={cell}
+                      completedBoard={completedBoard}
+                      rowIndex={rowIndex}
+                      cellIndex={cellIndex}
+                    />
                   </TableCell>
                 ))}
               </TableRow>
