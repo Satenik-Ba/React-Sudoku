@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { checkInput } from './utils';
+import { checkInput, completedBoard } from './utils';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -18,17 +18,14 @@ function Input(props) {
 
   const handleChange = (e) => {
     let userInput = parseInt(e.target.value.trim());
-    if (isNaN(userInput)) {
+    if (isNaN(userInput) || userInput === 0) {
       e.target.value = '';
       return null;
     }
-    if (userInput === 0) {
-      e.target.value = '';
-      return null;
-    }
+   
     setInput(userInput);
   };
-console.log(input)
+
   useEffect(() => {
     let result = checkInput(
       input,
@@ -41,7 +38,14 @@ console.log(input)
     } else {
       setIsInvalid(classes.validInput);
     }
-  }, [input, props.completedBoard]);
+  }, [
+    input,
+    props.completedBoard,
+    props.cellIndex,
+    props.rowIndex,
+    classes.invalidInput,
+    classes.validInput,
+  ]);
 
   return (
     <input

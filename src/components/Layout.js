@@ -40,7 +40,7 @@ const useStyles = makeStyles({
       'caret-color': 'rgba(0,0,0,0)',
       '&:focus': {
         outline: 'none',
-        backgroundColor: '#ffb4a2'
+        backgroundColor: '#ffb4a2',
       },
     },
   },
@@ -54,8 +54,14 @@ const Layout = () => {
     setBoard(puzzleBoard(completedBoard));
   }, []);
 
+  const handleClick = () => {
+    console.log('clicked')
+   
+  };
+
   return (
     <div className={classes.container}>
+      <button onClick={handleClick}>New Game</button>
       <TableContainer className={classes.tableContainer}>
         <TableBody>
           {board.map((row, rowIndex) => {
@@ -68,6 +74,7 @@ const Layout = () => {
                       completedBoard={completedBoard}
                       rowIndex={rowIndex}
                       cellIndex={cellIndex}
+                      setBoard={setBoard}
                     />
                   </TableCell>
                 ))}

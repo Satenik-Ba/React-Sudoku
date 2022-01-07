@@ -1,4 +1,5 @@
-export const puzzle = [
+
+ const puzzle = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -76,7 +77,7 @@ export const checkInput = (input, completedBoard, rowIndex, cellIndex) => {
       completedBoard[k][l] === input
     ) {
       return false;
-    }
+    } 
   }
   return true; 
 };
