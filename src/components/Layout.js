@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
 import { puzzleBoard, completedBoard } from './utils';
@@ -55,14 +55,13 @@ const Layout = () => {
   }, []);
 
   const handleClick = () => {
-    console.log('clicked')
-   
+    console.log('clicked');
   };
 
   return (
     <div className={classes.container}>
       <button onClick={handleClick}>New Game</button>
-      <TableContainer className={classes.tableContainer}>
+      <Table className={classes.tableContainer}>
         <TableBody>
           {board.map((row, rowIndex) => {
             return (
@@ -82,7 +81,7 @@ const Layout = () => {
             );
           })}
         </TableBody>
-      </TableContainer>
+      </Table>
     </div>
   );
 };

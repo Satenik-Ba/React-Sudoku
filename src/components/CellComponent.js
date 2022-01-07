@@ -52,7 +52,7 @@ function CellComponent(props) {
       className={isInvalid}
       type="text"
       onChange={handleChange}
-      value={props.cell}
+      value={props.cell || ''}
       disabled={Boolean(props.cell)}
       minLength="1"
       maxLength="1"
