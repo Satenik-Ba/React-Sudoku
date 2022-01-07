@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
 import { puzzleBoard, completedBoard } from './utils';
-import Input from './Input';
+import Input from './CellComponent';
 
 const useStyles = makeStyles({
   tableContainer: {

@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Input(props) {
+function CellComponent(props) {
   const classes = useStyles();
   const [input, setInput] = useState();
   const [isInvalid, setIsInvalid] = useState(classes.validInput);
@@ -60,4 +60,4 @@ function Input(props) {
   );
 }
 
-export default Input;
+export default CellComponent;
