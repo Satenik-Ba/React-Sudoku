@@ -15,21 +15,24 @@ function CellComponent(props) {
   const classes = useStyles();
   const [input, setInput] = useState();
   const [isInvalid, setIsInvalid] = useState(classes.validInput);
+  const [displayValue, setDisplayValue] = useState();
+
 
   const handleChange = (e) => {
+    setInput('')
     let userInput = parseInt(e.target.value.trim());
     if (isNaN(userInput) || userInput === 0) {
       e.target.value = '';
+      setDisplayValue('')
       return null;
     }
-   
     setInput(userInput);
   };
 
   useEffect(() => {
     let result = checkInput(
       input,
-      props.completedBoard,
+      completedBoard,
       props.rowIndex,
       props.cellIndex
     );
@@ -40,20 +43,26 @@ function CellComponent(props) {
     }
   }, [
     input,
-    props.completedBoard,
     props.cellIndex,
     props.rowIndex,
     classes.invalidInput,
     classes.validInput,
   ]);
+  useEffect(() => {
+    if (props.cell.value === '') {
+      setDisplayValue(input)
+    }else {
+      setDisplayValue(props.cell.value)
+    }
+  }, [props.cell.value, input]);
 
   return (
     <input
       className={isInvalid}
       type="text"
       onChange={handleChange}
-      value={props.cell || ''}
-      disabled={Boolean(props.cell)}
+      value={displayValue}
+      disabled={!props.cell.isEditable}
       minLength="1"
       maxLength="1"
     />

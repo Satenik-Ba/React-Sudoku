@@ -4,8 +4,8 @@ import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
-import { puzzleBoard, completedBoard } from './utils';
-import Input from './CellComponent';
+import { puzzleBoard, completedBoard, checkInput } from './utils';
+import CellComponent from './CellComponent';
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -50,13 +50,13 @@ const Layout = () => {
   const classes = useStyles();
   const [board, setBoard] = useState([]);
 
-  useEffect(() => {
-    setBoard(puzzleBoard(completedBoard));
-  }, []);
-
   const handleClick = () => {
     console.log('clicked');
   };
+
+  useEffect(() => {
+    setBoard(puzzleBoard(completedBoard));
+  }, []);
 
   return (
     <div className={classes.container}>
@@ -68,12 +68,11 @@ const Layout = () => {
               <TableRow key={rowIndex} className={classes.tableRow}>
                 {row.map((cell, cellIndex) => (
                   <TableCell className={classes.tableCell} key={cellIndex}>
-                    <Input
+                    <CellComponent
                       cell={cell}
                       completedBoard={completedBoard}
                       rowIndex={rowIndex}
                       cellIndex={cellIndex}
-                      setBoard={setBoard}
                     />
                   </TableCell>
                 ))}
