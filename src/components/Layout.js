@@ -58,6 +58,17 @@ const Layout = () => {
     setBoard(puzzleBoard(completedBoard));
   }, []);
 
+  const checkUserInput = (input, rowIndex, cellIndex) => {
+        if(input !== undefined){
+          if(!checkInput(input, board, rowIndex, cellIndex)){
+            console.log('INVALID')
+          } else {
+            console.log('VALID')
+          }
+          board[rowIndex][cellIndex].value = input; 
+        }
+  }
+
   return (
     <div className={classes.container}>
       <button onClick={handleClick}>New Game</button>
@@ -73,6 +84,7 @@ const Layout = () => {
                       completedBoard={completedBoard}
                       rowIndex={rowIndex}
                       cellIndex={cellIndex}
+                      checkUserInput={checkUserInput}
                     />
                   </TableCell>
                 ))}

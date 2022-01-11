@@ -17,48 +17,50 @@ function CellComponent(props) {
   const [isInvalid, setIsInvalid] = useState(classes.validInput);
   const [displayValue, setDisplayValue] = useState();
 
-
   const handleChange = (e) => {
-    setInput('')
+    setInput('');
     let userInput = parseInt(e.target.value.trim());
     if (isNaN(userInput) || userInput === 0) {
       e.target.value = '';
-      setDisplayValue('')
+      setDisplayValue('');
       return null;
     }
     setInput(userInput);
   };
 
-  useEffect(() => {
-    let result = checkInput(
-      input,
-      completedBoard,
-      props.rowIndex,
-      props.cellIndex
-    );
-    if (!result) {
-      setIsInvalid(classes.invalidInput);
-    } else {
-      setIsInvalid(classes.validInput);
-    }
-  }, [
-    input,
-    props.cellIndex,
-    props.rowIndex,
-    classes.invalidInput,
-    classes.validInput,
-  ]);
+  // useEffect(() => {
+  //   let result = checkInput(
+  //     input,
+  //     completedBoard,
+  //     props.rowIndex,
+  //     props.cellIndex
+  //   );
+  //   if (!result) {
+  //     setIsInvalid(classes.invalidInput);
+  //   } else {
+  //     setIsInvalid(classes.validInput);
+  //   }
+  // }, [
+  //   input,
+  //   props.cellIndex,
+  //   props.rowIndex,
+  //   classes.invalidInput,
+  //   classes.validInput,
+  // ]);
   useEffect(() => {
     if (props.cell.value === '') {
-      setDisplayValue(input)
-    }else {
-      setDisplayValue(props.cell.value)
+      setDisplayValue(input);
+    } else {
+      setDisplayValue(props.cell.value);
     }
   }, [props.cell.value, input]);
 
+  useEffect(() => {
+    props.checkUserInput(input, props.rowIndex, props.cellIndex);
+  }, [input, props]);
+
   return (
     <input
-      className={isInvalid}
       type="text"
       onChange={handleChange}
       value={displayValue}

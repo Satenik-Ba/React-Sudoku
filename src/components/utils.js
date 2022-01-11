@@ -69,14 +69,14 @@ export const puzzleBoard = (board) => {
   return board;
 };
 
-export const checkInput = (input, completedBoard, rowIndex, cellIndex) => {
+export const checkInput = (input, board, rowIndex, cellIndex) => {
   for (let i = 0; i < 9; i++) {
     const k = 3 * Math.floor(rowIndex / 3) + Math.floor(i / 3);
     const l = 3 * Math.floor(cellIndex / 3) + (i % 3);
     if (
-      completedBoard[rowIndex][i].value === input ||
-      completedBoard[i][cellIndex].value === input ||
-      completedBoard[k][l].value === input
+      board[rowIndex][i].value === input ||
+      board[i][cellIndex].value === input ||
+      board[k][l].value === input
     ) {
       return false;
     }
