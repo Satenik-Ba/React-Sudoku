@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { checkInput, completedBoard } from './utils';
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles({
-  invalidInput: {
-    color: 'red',
-  },
-  validInput: {
-    color: 'black',
-  },
-});
+// const useStyles = makeStyles({
+//   invalidInput: {
+//     color: 'red',
+//   },
+//   validInput: {
+//     color: 'black',
+//   },
+// });
 
 function CellComponent(props) {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [input, setInput] = useState();
-  const [isInvalid, setIsInvalid] = useState(classes.validInput);
   const [displayValue, setDisplayValue] = useState();
 
   const handleChange = (e) => {
@@ -28,25 +27,6 @@ function CellComponent(props) {
     setInput(userInput);
   };
 
-  // useEffect(() => {
-  //   let result = checkInput(
-  //     input,
-  //     completedBoard,
-  //     props.rowIndex,
-  //     props.cellIndex
-  //   );
-  //   if (!result) {
-  //     setIsInvalid(classes.invalidInput);
-  //   } else {
-  //     setIsInvalid(classes.validInput);
-  //   }
-  // }, [
-  //   input,
-  //   props.cellIndex,
-  //   props.rowIndex,
-  //   classes.invalidInput,
-  //   classes.validInput,
-  // ]);
   useEffect(() => {
     if (props.cell.value === '') {
       setDisplayValue(input);

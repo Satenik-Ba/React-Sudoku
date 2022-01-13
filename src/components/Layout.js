@@ -4,7 +4,12 @@ import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
-import { puzzleBoard, completedBoard, checkInput } from './utils';
+import {
+  puzzleBoard,
+  completedBoard,
+  checkInput,
+  isBoardComplete,
+} from './utils';
 import CellComponent from './CellComponent';
 
 const useStyles = makeStyles({
@@ -13,7 +18,13 @@ const useStyles = makeStyles({
     marginTop: '3rem',
     width: 'auto',
     height: 'auto',
-    borderCollapse: 'collapse',
+  },
+  winOverlay: {
+    marginBottom: '1rem',
+    marginTop: '1rem',
+    width: '10rem',
+    height: '10rem',
+    backgroundColor: 'red',
   },
   tableRow: {
     height: '3rem',
@@ -37,11 +48,15 @@ const useStyles = makeStyles({
       height: 'inherit',
       fontSize: '200%',
       textAlign: 'center',
+      color: '#1c1515',
       'caret-color': 'rgba(0,0,0,0)',
       '&:focus': {
         outline: 'none',
         backgroundColor: '#ffb4a2',
       },
+    },
+    '& td': {
+      color: 'blue',
     },
   },
 });
@@ -49,9 +64,10 @@ const useStyles = makeStyles({
 const Layout = () => {
   const classes = useStyles();
   const [board, setBoard] = useState([]);
-
-  const handleClick = () => {
-    console.log('clicked');
+  const [winOverlay, setWinOverlay] = useState(classes.tableContainer);
+const [completeGame, setCompleteGame] = useState(false)
+  const handleNewGame = () => {
+    window.location.reload(false);
   };
 
   useEffect(() => {
@@ -59,20 +75,31 @@ const Layout = () => {
   }, []);
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
-        if(input !== undefined){
-          if(!checkInput(input, board, rowIndex, cellIndex)){
-            console.log('INVALID')
-          } else {
-            console.log('VALID')
-          }
-          board[rowIndex][cellIndex].value = input; 
-        }
-  }
+    if (input !== undefined) {
+      if (!checkInput(input, board, rowIndex, cellIndex)) {
+        console.log('INVALID');
+      } else {
+        console.log('VALID');
+        isBoardComplete(board);
+      }
+      board[rowIndex][cellIndex].value = input;
+    }
+    if (isBoardComplete(board)) {
+      setWinOverlay(classes.winOverlay);
+      console.log('you wone and will change the appearance');
+    }
+  };
 
+  const handleSolve = () => {
+    setCompleteGame(true)
+    console.log('clicked');
+  };
+ 
   return (
-    <div className={classes.container}>
-      <button onClick={handleClick}>New Game</button>
-      <Table className={classes.tableContainer}>
+    <div className={winOverlay}>
+      <button onClick={handleNewGame}>New Game</button>
+      <button onClick={handleSolve}>Solve</button>
+      <Table>
         <TableBody>
           {board.map((row, rowIndex) => {
             return (

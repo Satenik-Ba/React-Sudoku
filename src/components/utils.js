@@ -13,7 +13,6 @@ const createEmptyBoard = () => {
   }
   return board;
 };
-const puzzle = createEmptyBoard();
 
 const isValid = (board, row, col, cell) => {
   for (let i = 0; i < 9; i++) {
@@ -29,6 +28,8 @@ const isValid = (board, row, col, cell) => {
   }
   return true;
 };
+
+export const puzzle = createEmptyBoard();
 
 export const generateBoard = (puzzle) => {
   for (let i = 0; i < 9; i++) {
@@ -54,17 +55,18 @@ export const generateBoard = (puzzle) => {
 
 export const completedBoard = generateBoard(puzzle);
 
+
 const easy = Math.floor(Math.random() * 21 + 14);
 const medium = Math.floor(Math.random() * 28 + 20);
 const hard = Math.floor(Math.random() * 35 + 28);
 
 // Remove numbers from the board based on difficulty
 export const puzzleBoard = (board) => {
-  for (let i = 0; i < hard; i++) {
+  for (let i = 0; i < easy; i++) {
     let x = Math.floor(Math.random() * 9);
     let y = Math.floor(Math.random() * 9);
     board[x][y].value = '';
-    board[x][y].isEditable = true; 
+    board[x][y].isEditable = true;
   }
   return board;
 };
@@ -83,3 +85,19 @@ export const checkInput = (input, board, rowIndex, cellIndex) => {
   }
   return true;
 };
+
+export const isBoardComplete = (board) => {
+ let counter = 81; 
+  board.map((row) => {
+    row.map((cell) => {
+      if(cell.value !== ''){
+        counter--; 
+      }
+    })
+  })
+  if(counter >= 1){
+    return false;
+  } 
+  return true; 
+};
+

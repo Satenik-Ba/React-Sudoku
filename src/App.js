@@ -6,12 +6,11 @@ import Difficulty from './components/UI/Difficulty';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
         <Box>
           {/* <Difficulty /> */}
           <Layout />
         </Box>
-      </header>
+     
     </div>
   );
 }
