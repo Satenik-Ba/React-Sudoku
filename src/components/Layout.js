@@ -65,7 +65,10 @@ const Layout = () => {
   const classes = useStyles();
   const [board, setBoard] = useState([]);
   const [winOverlay, setWinOverlay] = useState(classes.tableContainer);
-const [completeGame, setCompleteGame] = useState(false)
+  const [completeGame, setCompleteGame] = useState(false);
+
+  const [wrongInput, setWrongInput] = useState('validInput');
+
   const handleNewGame = () => {
     window.location.reload(false);
   };
@@ -77,9 +80,11 @@ const [completeGame, setCompleteGame] = useState(false)
   const checkUserInput = (input, rowIndex, cellIndex) => {
     if (input !== undefined) {
       if (!checkInput(input, board, rowIndex, cellIndex)) {
+        setWrongInput('invalidInput');
         console.log('INVALID');
       } else {
         console.log('VALID');
+        setWrongInput('validInput');
         isBoardComplete(board);
       }
       board[rowIndex][cellIndex].value = input;
@@ -91,10 +96,10 @@ const [completeGame, setCompleteGame] = useState(false)
   };
 
   const handleSolve = () => {
-    setCompleteGame(true)
+    setCompleteGame(true);
     console.log('clicked');
   };
- 
+
   return (
     <div className={winOverlay}>
       <button onClick={handleNewGame}>New Game</button>
@@ -112,6 +117,7 @@ const [completeGame, setCompleteGame] = useState(false)
                       rowIndex={rowIndex}
                       cellIndex={cellIndex}
                       checkUserInput={checkUserInput}
+                      wrongInput={wrongInput}
                     />
                   </TableCell>
                 ))}

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { checkInput, completedBoard } from './utils';
 import { makeStyles } from '@mui/styles';
+import { ClassNames } from '@emotion/react';
 
-// const useStyles = makeStyles({
-//   invalidInput: {
-//     color: 'red',
-//   },
-//   validInput: {
-//     color: 'black',
-//   },
-// });
+const useStyles = makeStyles({
+  invalidInput: {
+    '&:focus': {
+      color: 'red',
+    },
+  },
+  validInput: {
+    color: 'black',
+  },
+});
 
 function CellComponent(props) {
-  // const classes = useStyles();
+  const classes = useStyles();
   const [input, setInput] = useState();
   const [displayValue, setDisplayValue] = useState();
 
@@ -38,9 +41,11 @@ function CellComponent(props) {
   useEffect(() => {
     props.checkUserInput(input, props.rowIndex, props.cellIndex);
   }, [input, props]);
+  console.log(props.wrongInput);
 
   return (
     <input
+      className={classes[props.wrongInput]}
       type="text"
       onChange={handleChange}
       value={displayValue}
