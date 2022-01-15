@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { checkInput, completedBoard } from './utils';
 import { makeStyles } from '@mui/styles';
-import { ClassNames } from '@emotion/react';
+
 
 const useStyles = makeStyles({
   invalidInput: {
@@ -41,7 +40,7 @@ function CellComponent(props) {
   useEffect(() => {
     props.checkUserInput(input, props.rowIndex, props.cellIndex);
   }, [input, props]);
-  console.log(props.wrongInput);
+  
 
   return (
     <input

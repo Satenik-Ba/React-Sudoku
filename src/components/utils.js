@@ -29,20 +29,19 @@ const isValid = (board, row, col, cell) => {
   return true;
 };
 
-export const puzzle = createEmptyBoard();
-
-export const generateBoard = (puzzle) => {
+let board = createEmptyBoard()
+export const generateBoard = () => {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      if (puzzle[i][j].value === 0) {
+      if (board[i][j].value === 0) {
         for (let k = 0; k < 9; k++) {
           let cell = createRandomNum();
-          if (isValid(puzzle, i, j, cell)) {
-            puzzle[i][j].value = cell;
-            if (generateBoard(puzzle)) {
-              return puzzle;
+          if (isValid(board, i, j, cell)) {
+            board[i][j].value = cell;
+            if (generateBoard(board)) {
+              return board;
             } else {
-              puzzle[i][j].value = 0;
+              board[i][j].value = 0;
             }
           }
         }
@@ -50,35 +49,34 @@ export const generateBoard = (puzzle) => {
       }
     }
   }
-  return puzzle;
-};
-
-export const completedBoard = generateBoard(puzzle);
-
-
-const easy = Math.floor(Math.random() * 21 + 14);
-const medium = Math.floor(Math.random() * 28 + 20);
-const hard = Math.floor(Math.random() * 35 + 28);
-
-// Remove numbers from the board based on difficulty
-export const puzzleBoard = (board) => {
-  for (let i = 0; i < easy; i++) {
-    let x = Math.floor(Math.random() * 9);
-    let y = Math.floor(Math.random() * 9);
-    board[x][y].value = '';
-    board[x][y].isEditable = true;
-  }
   return board;
 };
 
-export const checkInput = (input, board, rowIndex, cellIndex) => {
+export const completedBoard = generateBoard();
+const boardClone = JSON.parse(JSON.stringify(completedBoard))
+
+export const puzzleBoard = (difficulty) => {
+  for (let i = 0; i < 30 ; i++) {
+    let x = Math.floor(Math.random() * 9);
+    let y = Math.floor(Math.random() * 9);
+    boardClone[x][y].value = null;
+    boardClone[x][y].isEditable = true;
+  }
+  return boardClone;
+};
+
+
+
+
+
+export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
   for (let i = 0; i < 9; i++) {
     const k = 3 * Math.floor(rowIndex / 3) + Math.floor(i / 3);
     const l = 3 * Math.floor(cellIndex / 3) + (i % 3);
     if (
-      board[rowIndex][i].value === input ||
-      board[i][cellIndex].value === input ||
-      board[k][l].value === input
+      gameBoard[rowIndex][i].value === input ||
+      gameBoard[i][cellIndex].value === input ||
+      gameBoard[k][l].value === input
     ) {
       return false;
     }
@@ -90,7 +88,7 @@ export const isBoardComplete = (board) => {
  let counter = 81; 
   board.map((row) => {
     row.map((cell) => {
-      if(cell.value !== ''){
+      if(cell.value !== null){
         counter--; 
       }
     })
@@ -100,4 +98,3 @@ export const isBoardComplete = (board) => {
   } 
   return true; 
 };
-
