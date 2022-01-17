@@ -2,21 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import NativeSelect from '@mui/material/NativeSelect';
 
-const easy = Math.floor(Math.random() * 15 + 10);
-const medium = Math.floor(Math.random() * 15 + 20);
-const hard = Math.floor(Math.random() * 15 + 30);
+const easy = Math.floor(Math.random() * 10 + 40);
+const medium = Math.floor(Math.random() * 10 + 50);
+const hard = Math.floor(Math.random() * 10 + 60);
 
-const DifficultyLevel = () => {
-  const [difficultyLevel, setDifficultyLevel] = useState(easy);
-
+const DifficultyLevel = ({ gameDifficultyLevel }) => {
 
   const handleChange = (e) => {
     if (e.target.value === 'easy') {
-      setDifficultyLevel(easy);
+      gameDifficultyLevel(easy);;
     } else if (e.target.value === 'medium') {
-      setDifficultyLevel(medium);
+      gameDifficultyLevel(medium);
     } else if (e.target.value === 'hard') {
-      setDifficultyLevel(hard);
+      gameDifficultyLevel(hard);
     }
   };
 

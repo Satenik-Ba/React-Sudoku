@@ -29,8 +29,7 @@ const isValid = (board, row, col, cell) => {
   return true;
 };
 
-let board = createEmptyBoard()
-export const generateBoard = () => {
+const generateBoard = (board) => {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (board[i][j].value === 0) {
@@ -49,25 +48,23 @@ export const generateBoard = () => {
       }
     }
   }
-  return board;
+  return true;
 };
 
-export const completedBoard = generateBoard();
-const boardClone = JSON.parse(JSON.stringify(completedBoard))
-
-export const puzzleBoard = (difficulty) => {
-  for (let i = 0; i < 30 ; i++) {
+export const createFunctionalBoard = (difficulty) => {
+  const createNewEmptyBoard = createEmptyBoard();
+  const puzzleBoardLayout = [generateBoard(createNewEmptyBoard)];
+  const boardClone = JSON.parse(JSON.stringify(puzzleBoardLayout[0]));
+  for (let i = 0; i < difficulty; i++) {
     let x = Math.floor(Math.random() * 9);
     let y = Math.floor(Math.random() * 9);
     boardClone[x][y].value = null;
     boardClone[x][y].isEditable = true;
   }
-  return boardClone;
+  puzzleBoardLayout.push(boardClone);
+  console.log(puzzleBoardLayout, 'puzzleBoardLayout');
+  return puzzleBoardLayout;
 };
-
-
-
-
 
 export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
   for (let i = 0; i < 9; i++) {
@@ -85,16 +82,16 @@ export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
 };
 
 export const isBoardComplete = (board) => {
- let counter = 81; 
+  let counter = 81;
   board.map((row) => {
     row.map((cell) => {
-      if(cell.value !== null){
-        counter--; 
+      if (cell.value !== null) {
+        counter--;
       }
-    })
-  })
-  if(counter >= 1){
+    });
+  });
+  if (counter >= 1) {
     return false;
-  } 
-  return true; 
+  }
+  return true;
 };

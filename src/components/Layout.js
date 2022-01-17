@@ -4,12 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
-import {
-  completedBoard,
-  puzzleBoard,
-  checkInput,
-  isBoardComplete,
-} from './utils';
+import { checkInput, isBoardComplete, createFunctionalBoard } from './utils';
 import CellComponent from './CellComponent';
 import Difficulty from './UI/DifficultyLevel';
 
@@ -62,49 +57,54 @@ const useStyles = makeStyles({
 const Layout = () => {
   const classes = useStyles();
   const [winOverlay, setWinOverlay] = useState(classes.tableContainer);
-  const [completeGame, setCompleteGame] = useState(false);
   const [wrongInput, setWrongInput] = useState('validInput');
-
+  const [gameDifficulty, setGameDifficulty] = useState(10);
   const [gameBoard, setGameBoard] = useState();
 
+  const gameDifficultyLevel = (difficulty) => {
+    setGameDifficulty(difficulty);
+    setGameBoard();
+  };
+
+  useEffect(() => {
+    setGameBoard(createFunctionalBoard(gameDifficulty));
+  }, [gameDifficulty]);
+
+  const handleSolve = () => {
+    setGameBoard(gameBoard[0]);
+  };
+
   const handleNewGame = () => {
+    // setGameBoard(createFunctionalBoard(gameDifficulty));
     window.location.reload(false);
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
     if (input !== undefined) {
-      if (!checkInput(input, gameBoard, rowIndex, cellIndex)) {
+      if (!checkInput(input, gameBoard[1], rowIndex, cellIndex)) {
         setWrongInput('invalidInput');
         console.log('INVALID');
       } else {
         console.log('VALID');
         setWrongInput('validInput');
-        isBoardComplete(gameBoard);
+        isBoardComplete(gameBoard[1]);
       }
-      gameBoard[rowIndex][cellIndex].value = input;
+      gameBoard[1][rowIndex][cellIndex].value = input;
     }
-    if (isBoardComplete(gameBoard)) {
+    if (isBoardComplete(gameBoard[1])) {
       setWinOverlay(classes.winOverlay);
     }
   };
 
-  const handleSolve = () => {
-    setGameBoard(completedBoard);
-  };
-
-  useEffect(() => {
-    setGameBoard(puzzleBoard());
-  }, []);
-
   return (
     <div className={winOverlay}>
-      <Difficulty />
+      <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
       <button onClick={handleNewGame}>New Game</button>
       <button onClick={handleSolve}>Solve</button>
       <Table>
         <TableBody>
           {gameBoard &&
-            gameBoard.map((row, rowIndex) => {
+            gameBoard[1].map((row, rowIndex) => {
               return (
                 <TableRow key={rowIndex} className={classes.tableRow}>
                   {row.map((cell, cellIndex) => (
