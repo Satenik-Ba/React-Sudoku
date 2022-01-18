@@ -18,9 +18,11 @@ const useStyles = makeStyles({
   winOverlay: {
     marginBottom: '3rem',
     marginTop: '3rem',
-    width: 'auto',
-    height: 'auto',
-    backgroundColor: 'red',
+    height: '30.125rem',
+    width: '29rem',
+    'border-collapse': 'collapse',
+    'border-spacing': 0,
+    background: '#0072e3 radial-gradient(circle at 50% 0,#82ffff,#0072e3 53%)',
   },
   tableRow: {
     height: '3rem',
@@ -56,20 +58,22 @@ const useStyles = makeStyles({
 
 const Layout = () => {
   const classes = useStyles();
-  const [winOverlay, setWinOverlay] = useState(classes.tableContainer);
   const [wrongInput, setWrongInput] = useState('validInput');
-  const [gameDifficulty, setGameDifficulty] = useState(10);
+  const [gameDifficulty, setGameDifficulty] = useState(2);
   const [gameBoard, setGameBoard] = useState();
   const [solve, setSolve] = useState(1);
+  const [wonGame, setWonGame] = useState(false);
 
   const gameDifficultyLevel = (difficulty) => {
     setGameDifficulty(difficulty);
     setGameBoard();
     setSolve(1);
+    setWonGame(false);
   };
 
   useEffect(() => {
     setGameBoard(createFunctionalBoard(gameDifficulty));
+    setWonGame(false);
   }, [gameDifficulty]);
 
   const handleSolve = () => {
@@ -90,7 +94,10 @@ const Layout = () => {
         setWrongInput('validInput');
         gameBoard[1][rowIndex][cellIndex].value = input;
       }
-      isBoardComplete(gameBoard[1])
+      if (isBoardComplete(gameBoard[1])) {
+        setWonGame(true);
+        console.log('YOU WIN THE GAME');
+      }
     }
     if (input === '') {
       gameBoard[1][rowIndex][cellIndex].value = null;
@@ -98,33 +105,47 @@ const Layout = () => {
   };
 
   return (
-    <div className={winOverlay}>
+    <>
       <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
       <button onClick={handleNewGame}>New Game</button>
       <button onClick={handleSolve}>Solve</button>
-      <Table>
-        <TableBody>
-          {gameBoard &&
-            gameBoard[solve].map((row, rowIndex) => {
-              return (
-                <TableRow key={rowIndex} className={classes.tableRow}>
-                  {row.map((cell, cellIndex) => (
-                    <TableCell className={classes.tableCell} key={cellIndex}>
-                      <CellComponent
-                        cell={cell}
-                        rowIndex={rowIndex}
-                        cellIndex={cellIndex}
-                        checkUserInput={checkUserInput}
-                        wrongInput={wrongInput}
-                      />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
-    </div>
+      {wonGame && (
+        <div className={classes.winOverlay}>
+          <h1>Excellent!</h1>
+          <div>Difficulty</div>
+          <div>Time</div>
+        </div>
+      )}
+      {!wonGame && (
+        <div className={classes.tableContainer}>
+          <Table>
+            <TableBody>
+              {gameBoard &&
+                gameBoard[solve].map((row, rowIndex) => {
+                  return (
+                    <TableRow key={rowIndex} className={classes.tableRow}>
+                      {row.map((cell, cellIndex) => (
+                        <TableCell
+                          className={classes.tableCell}
+                          key={cellIndex}
+                        >
+                          <CellComponent
+                            cell={cell}
+                            rowIndex={rowIndex}
+                            cellIndex={cellIndex}
+                            checkUserInput={checkUserInput}
+                            wrongInput={wrongInput}
+                          />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+    </>
   );
 };
 
