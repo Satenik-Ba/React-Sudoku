@@ -62,9 +62,10 @@ export const createFunctionalBoard = (difficulty) => {
     boardClone[x][y].isEditable = true;
   }
   puzzleBoardLayout.push(boardClone);
-  console.log(puzzleBoardLayout, 'puzzleBoardLayout');
   return puzzleBoardLayout;
 };
+
+
 
 export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
   for (let i = 0; i < 9; i++) {
@@ -75,10 +76,11 @@ export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
       gameBoard[i][cellIndex].value === input ||
       gameBoard[k][l].value === input
     ) {
+      console.log(false)
       return false;
     }
   }
-  return true;
+  return true; 
 };
 
 export const isBoardComplete = (board) => {
@@ -93,5 +95,6 @@ export const isBoardComplete = (board) => {
   if (counter >= 1) {
     return false;
   }
+  console.log('YOU WON THE GAME')
   return true;
 };

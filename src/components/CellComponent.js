@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 
-
 const useStyles = makeStyles({
   invalidInput: {
     '&:focus': {
@@ -13,7 +12,13 @@ const useStyles = makeStyles({
   },
 });
 
-function CellComponent(props) {
+function CellComponent({
+  cell,
+  rowIndex,
+  cellIndex,
+  wrongInput,
+  checkUserInput,
+}) {
   const classes = useStyles();
   const [input, setInput] = useState();
   const [displayValue, setDisplayValue] = useState();
@@ -30,25 +35,24 @@ function CellComponent(props) {
   };
 
   useEffect(() => {
-    if (props.cell.value === '') {
+    if (cell.value === null) {
       setDisplayValue(input);
     } else {
-      setDisplayValue(props.cell.value);
+      setDisplayValue(cell.value);
     }
-  }, [props.cell.value, input]);
+  }, [cell.value, input]);
 
   useEffect(() => {
-    props.checkUserInput(input, props.rowIndex, props.cellIndex);
-  }, [input, props]);
-  
+    checkUserInput(input, rowIndex, cellIndex);
+  }, [input, rowIndex, cellIndex]);
 
   return (
     <input
-      className={classes[props.wrongInput]}
+      className={classes[wrongInput]}
       type="text"
       onChange={handleChange}
       value={displayValue}
-      disabled={!props.cell.isEditable}
+      disabled={!cell.isEditable}
       minLength="1"
       maxLength="1"
     />

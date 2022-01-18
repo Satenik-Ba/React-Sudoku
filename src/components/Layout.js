@@ -60,10 +60,12 @@ const Layout = () => {
   const [wrongInput, setWrongInput] = useState('validInput');
   const [gameDifficulty, setGameDifficulty] = useState(10);
   const [gameBoard, setGameBoard] = useState();
+  const [solve, setSolve] = useState(1);
 
   const gameDifficultyLevel = (difficulty) => {
     setGameDifficulty(difficulty);
     setGameBoard();
+    setSolve(1);
   };
 
   useEffect(() => {
@@ -71,16 +73,16 @@ const Layout = () => {
   }, [gameDifficulty]);
 
   const handleSolve = () => {
-    setGameBoard(gameBoard[0]);
+    setSolve(0);
   };
 
   const handleNewGame = () => {
-    // setGameBoard(createFunctionalBoard(gameDifficulty));
     window.location.reload(false);
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
-    if (input !== undefined) {
+    console.log(input, "INPUT")
+    if (input) {
       if (!checkInput(input, gameBoard[1], rowIndex, cellIndex)) {
         setWrongInput('invalidInput');
         console.log('INVALID');
@@ -88,12 +90,16 @@ const Layout = () => {
         console.log('VALID');
         setWrongInput('validInput');
         isBoardComplete(gameBoard[1]);
+        gameBoard[1][rowIndex][cellIndex].value = input;
       }
-      gameBoard[1][rowIndex][cellIndex].value = input;
     }
-    if (isBoardComplete(gameBoard[1])) {
-      setWinOverlay(classes.winOverlay);
+    if (input === '') {
+      gameBoard[1][rowIndex][cellIndex].value = null;
     }
+
+    // if (isBoardComplete(gameBoard[1])) {
+    //   setWinOverlay(classes.winOverlay);
+    // }
   };
 
   return (
@@ -104,7 +110,7 @@ const Layout = () => {
       <Table>
         <TableBody>
           {gameBoard &&
-            gameBoard[1].map((row, rowIndex) => {
+            gameBoard[solve].map((row, rowIndex) => {
               return (
                 <TableRow key={rowIndex} className={classes.tableRow}>
                   {row.map((cell, cellIndex) => (
