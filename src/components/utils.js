@@ -76,7 +76,6 @@ export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
       gameBoard[i][cellIndex].value === input ||
       gameBoard[k][l].value === input
     ) {
-      console.log(false)
       return false;
     }
   }
@@ -95,6 +94,7 @@ export const isBoardComplete = (board) => {
   if (counter >= 1) {
     return false;
   }
+  console.log(counter)
   console.log('YOU WON THE GAME')
   return true;
 };

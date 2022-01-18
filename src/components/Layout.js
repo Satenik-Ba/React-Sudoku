@@ -81,7 +81,6 @@ const Layout = () => {
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
-    console.log(input, "INPUT")
     if (input) {
       if (!checkInput(input, gameBoard[1], rowIndex, cellIndex)) {
         setWrongInput('invalidInput');
@@ -89,17 +88,13 @@ const Layout = () => {
       } else {
         console.log('VALID');
         setWrongInput('validInput');
-        isBoardComplete(gameBoard[1]);
         gameBoard[1][rowIndex][cellIndex].value = input;
       }
+      isBoardComplete(gameBoard[1])
     }
     if (input === '') {
       gameBoard[1][rowIndex][cellIndex].value = null;
     }
-
-    // if (isBoardComplete(gameBoard[1])) {
-    //   setWinOverlay(classes.winOverlay);
-    // }
   };
 
   return (
