@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { checkInput, isBoardComplete, createFunctionalBoard } from './utils';
 import CellComponent from './CellComponent';
 import Difficulty from './UI/DifficultyLevel';
+import TimeCounter from './UI/TimeCounter';
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -22,7 +23,9 @@ const useStyles = makeStyles({
     width: '29rem',
     'border-collapse': 'collapse',
     'border-spacing': 0,
-    background: '#0072e3 radial-gradient(circle at 50% 0,#82ffff,#0072e3 53%)',
+    color: 'white',
+    textAlign: 'center',
+    background: '#91670c',
   },
   tableRow: {
     height: '3rem',
@@ -59,7 +62,7 @@ const useStyles = makeStyles({
 const Layout = () => {
   const classes = useStyles();
   const [wrongInput, setWrongInput] = useState('validInput');
-  const [gameDifficulty, setGameDifficulty] = useState(2);
+  const [gameDifficulty, setGameDifficulty] = useState(40);
   const [gameBoard, setGameBoard] = useState();
   const [solve, setSolve] = useState(1);
   const [wonGame, setWonGame] = useState(false);
@@ -109,11 +112,12 @@ const Layout = () => {
       <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
       <button onClick={handleNewGame}>New Game</button>
       <button onClick={handleSolve}>Solve</button>
+      <TimeCounter />
       {wonGame && (
         <div className={classes.winOverlay}>
           <h1>Excellent!</h1>
-          <div>Difficulty</div>
-          <div>Time</div>
+          <div>Difficulty: </div>
+          <div>Time: </div>
         </div>
       )}
       {!wonGame && (
