@@ -1,3 +1,38 @@
+class Cell {
+    constructor(value, isEditable) {
+      this.value = value;
+      this.isEditable = isEditable;
+    }
+  }
+  
+  export class Board {
+    constructor() {
+    
+    }
+  
+    createRandomNum(max) {
+      return Math.floor(Math.random() * max);
+    }
+  
+    createEmptyBoard() {
+      let board = [];
+      for (let i = 0; i < 9; i++) {
+        let row = [];
+        for (let j = 0; j < 9; j++) {
+          row.push(new Cell(null, false));
+        }
+        board.push(row);
+      }
+      console.log(board)
+      return board;
+    }
+}
+let board = new Board()
+
+
+
+
+///utils board
 const createRandomNum = (max = 9) => {
   return Math.floor(Math.random() * max + 1);
 };
@@ -51,7 +86,6 @@ const generateBoard = (board) => {
   return true;
 };
 
-
 export const createFunctionalBoard = (difficulty) => {
   const createNewEmptyBoard = createEmptyBoard();
   const puzzleBoardLayout = [generateBoard(createNewEmptyBoard)];
@@ -97,25 +131,3 @@ export const isBoardComplete = (board) => {
   console.log('YOU WON THE GAME');
   return true;
 };
-
-
-
-// const solve = (grid) => {
-//   for (let i = 0; i < 9; i++){
-//     for(let j = 0; j < 9; j++){
-//       if(grid[i][j] === 0){
-//         for (let k = 1; k < 10; k++){
-//           if(isValid(grid, i, j, k)){
-//             grid[i][j] = k; 
-//             if(solve(grid)){
-//               return grid; 
-//             }
-//             grid[i][j] = 0
-//           }
-//         }
-//         return false; 
-//       }
-//     }
-//   }
-//   return true; 
-// }

@@ -8,6 +8,7 @@ import { checkInput, isBoardComplete, createFunctionalBoard } from './utils';
 import CellComponent from './CellComponent';
 import Difficulty from './UI/DifficultyLevel';
 import TimeCounter from './UI/TimeCounter';
+import {Board} from '../logic/Sudoku'
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -60,24 +61,26 @@ const useStyles = makeStyles({
 });
 
 const Layout = () => {
+  const board = new Board()
+  console.log(board, 'Board')
   const classes = useStyles();
   const [wrongInput, setWrongInput] = useState('validInput');
   const [gameDifficulty, setGameDifficulty] = useState(40);
-  const [gameBoard, setGameBoard] = useState();
+  const [gameBoard, setGameBoard] = useState(board.cells);
   const [solve, setSolve] = useState(1);
   const [wonGame, setWonGame] = useState(false);
 
-  const gameDifficultyLevel = (difficulty) => {
-    setGameDifficulty(difficulty);
-    setGameBoard();
-    setSolve(1);
-    setWonGame(false);
-  };
+  // const gameDifficultyLevel = (difficulty) => {
+  //   setGameDifficulty(difficulty);
+  //   setGameBoard();
+  //   setSolve(1);
+  //   setWonGame(false);
+  // };
 
-  useEffect(() => {
-    setGameBoard(createFunctionalBoard(gameDifficulty));
-    setWonGame(false);
-  }, [gameDifficulty]);
+  // useEffect(() => {
+  //   setGameBoard(board.cells);
+  //   setWonGame(false);
+  // }, [board]);
 
   const handleSolve = () => {
     setSolve(0);
@@ -89,30 +92,30 @@ const Layout = () => {
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
     if (input) {
-      if (!checkInput(input, gameBoard[1], rowIndex, cellIndex)) {
+      if (!checkInput(input, gameBoard, rowIndex, cellIndex)) {
         setWrongInput('invalidInput');
         console.log('INVALID');
       } else {
         console.log('VALID');
         setWrongInput('validInput');
-        gameBoard[1][rowIndex][cellIndex].value = input;
+        gameBoard[rowIndex][cellIndex].value = input;
       }
-      if (isBoardComplete(gameBoard[1])) {
+      if (isBoardComplete(gameBoard)) {
         setWonGame(true);
         console.log('YOU WIN THE GAME');
       }
     }
     if (input === '') {
-      gameBoard[1][rowIndex][cellIndex].value = null;
+      gameBoard[rowIndex][cellIndex].value = null;
     }
   };
 
   return (
     <>
-      <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
+      {/* <Difficulty gameDifficultyLevel={gameDifficultyLevel} /> */}
       <button onClick={handleNewGame}>New Game</button>
       <button onClick={handleSolve}>Solve</button>
-      <TimeCounter />
+      {/* <TimeCounter /> */}
       {wonGame && (
         <div className={classes.winOverlay}>
           <h1>Excellent!</h1>
@@ -124,8 +127,7 @@ const Layout = () => {
         <div className={classes.tableContainer}>
           <Table>
             <TableBody>
-              {gameBoard &&
-                gameBoard[solve].map((row, rowIndex) => {
+              {gameBoard.map((row, rowIndex) => {
                   return (
                     <TableRow key={rowIndex} className={classes.tableRow}>
                       {row.map((cell, cellIndex) => (
