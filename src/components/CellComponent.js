@@ -51,7 +51,7 @@ function CellComponent({
       className={classes[wrongInput]}
       type="text"
       onChange={handleChange}
-      value={displayValue}
+      value={cell.value}
       disabled={!cell.isEditable}
       minLength="1"
       maxLength="1"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
@@ -8,7 +8,7 @@ import { checkInput, isBoardComplete, createFunctionalBoard } from './utils';
 import CellComponent from './CellComponent';
 import Difficulty from './UI/DifficultyLevel';
 import TimeCounter from './UI/TimeCounter';
-import {Board} from '../logic/Sudoku'
+import { Board } from '../logic/Sudoku';
 
 const useStyles = makeStyles({
   tableContainer: {
@@ -61,14 +61,14 @@ const useStyles = makeStyles({
 });
 
 const Layout = () => {
-  const board = new Board()
-  console.log(board, 'Board')
   const classes = useStyles();
   const [wrongInput, setWrongInput] = useState('validInput');
   const [gameDifficulty, setGameDifficulty] = useState(40);
-  const [gameBoard, setGameBoard] = useState(board.cells);
-  const [solve, setSolve] = useState(1);
+
+  const [gameBoardData, setGameBoardData] = useState(new Board(40));
+  const [board, setBoard] = useState();
   const [wonGame, setWonGame] = useState(false);
+  console.log(gameBoardData, 'GameBoardData');
 
   // const gameDifficultyLevel = (difficulty) => {
   //   setGameDifficulty(difficulty);
@@ -76,37 +76,37 @@ const Layout = () => {
   //   setSolve(1);
   //   setWonGame(false);
   // };
-
-  // useEffect(() => {
-  //   setGameBoard(board.cells);
-  //   setWonGame(false);
-  // }, [board]);
+  useEffect(() => {
+    setBoard(gameBoardData.gameBoard);
+  }, [gameBoardData.gameBoard]);
 
   const handleSolve = () => {
-    setSolve(0);
+    setBoard(gameBoardData.solvedGame);
   };
 
   const handleNewGame = () => {
-    window.location.reload(false);
+    setGameBoardData(new Board(30))
+    setBoard()
+    // window.location.reload(false);
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
     if (input) {
-      if (!checkInput(input, gameBoard, rowIndex, cellIndex)) {
+      if (!checkInput(input, gameBoardData.gameBoard, rowIndex, cellIndex)) {
         setWrongInput('invalidInput');
         console.log('INVALID');
       } else {
         console.log('VALID');
         setWrongInput('validInput');
-        gameBoard[rowIndex][cellIndex].value = input;
+        gameBoardData.gameBoard[rowIndex][cellIndex].value = input;
       }
-      if (isBoardComplete(gameBoard)) {
+      if (isBoardComplete(gameBoardData.gameBoard)) {
         setWonGame(true);
         console.log('YOU WIN THE GAME');
       }
     }
     if (input === '') {
-      gameBoard[rowIndex][cellIndex].value = null;
+      gameBoardData[rowIndex][cellIndex].value = null;
     }
   };
 
@@ -127,7 +127,8 @@ const Layout = () => {
         <div className={classes.tableContainer}>
           <Table>
             <TableBody>
-              {gameBoard.map((row, rowIndex) => {
+              {board &&
+                board.map((row, rowIndex) => {
                   return (
                     <TableRow key={rowIndex} className={classes.tableRow}>
                       {row.map((cell, cellIndex) => (
