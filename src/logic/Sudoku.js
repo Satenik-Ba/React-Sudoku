@@ -2,6 +2,7 @@ class Cell {
   constructor(value, isEditable) {
     this.value = value;
     this.isEditable = isEditable;
+    this.userValue = null; 
   }
 }
 
@@ -125,6 +126,25 @@ export class Board {
     return arr[index];
   }
 
+  solveHelper(){
+    //return if made progress ,board solved (arr of booleans)
+    
+    // for loop -> check the constrainsts and if make progress -> return true
+  }
+
+  solve(){
+    // copy the cells 
+    // result = solveHelper(boardcopy)
+    //while (true) {
+      // [madeProgress, boardSolved] = solveHelper(boardcopy)
+      //if(boardSolved){
+        //return true
+      // }
+      // if(!madeProgress){
+      //   return false
+      // }
+    // }
+  }
   isValid(board, row, col, cell) {
     for (let i = 0; i < 9; i++) {
       const m = 3 * Math.floor(row / 3) + Math.floor(i / 3);
