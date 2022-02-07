@@ -7,16 +7,10 @@ class Cell {
 }
 
 export class Board {
-  constructor() {
+  constructor(difficulty) {
     this.board = this.generateBoard2();
     const boardCopy = JSON.parse(JSON.stringify(this.board));
-    this.gameBoard = this.createPuzzleBoard(boardCopy);
-
-    this.result = this.solveHelper(this.gameBoard);
-    this.checkSolution = this.hasSolution(this.result);
-
-    // this.gameBoardCopy = JSON.parse(JSON.stringify(this.gameBoard));
-    // this.solvedGame = this.solverFunction(this.gameBoardCopy);
+    this.gameBoard = this.createPuzzleBoard(boardCopy, difficulty);
   }
 
   createRandomNum(max) {
@@ -191,23 +185,22 @@ export class Board {
         }
       }
     }
-    console.log(boardCopy, 'BOARD COPY')
     return true;
   }
 
-  createPuzzleBoard(boardCopy) {
-    for (let i = 0; i < 60; i++) {
+  createPuzzleBoard(boardCopy, difficulty) {
+    this.result = this.solveHelper(boardCopy);
+    for (let i = 0; i < difficulty; i++) {
       let x = this.createRandomNum(9);
       let y = this.createRandomNum(9);
-      boardCopy[x][y].value = null;
-      boardCopy[x][y].isEditable = true;
-      console.log('HAS A SOLUTION');
-      // if (this.solveHelper(boardCopy)) {
-
-      // } else {
-      //   console.log('DOESNT HAVE A SOLUTION')
-      //   continue;
-      // }
+      let item = boardCopy[x][y].value;
+      if (this.hasSolution(this.result)) {
+        boardCopy[x][y].value = null;
+        boardCopy[x][y].isEditable = true;
+      } else {
+        boardCopy[x][y].value = item;
+        continue;
+      }
     }
     return boardCopy;
   }

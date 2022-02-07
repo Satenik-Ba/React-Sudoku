@@ -66,7 +66,7 @@ function App() {
   const classes = useStyles();
   const [wrongInput, setWrongInput] = useState('validInput');
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [gameBoardData, setGameBoardData] = useState(new Board());
+  const [gameBoardData, setGameBoardData] = useState(new Board(40));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
   const [wonGame, setWonGame] = useState(false);
 console.log(gameBoardData)
