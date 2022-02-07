@@ -8,11 +8,11 @@ class Cell {
 
 export class Board {
   constructor() {
-    this.cells = this.generateBoard2();
-    const boardCopy = JSON.parse(JSON.stringify(this.cells));
-    this.gameBoard = this.solve(boardCopy);
-    this.result = this.solveHelper(this.gameBoard);
+    this.board = this.generateBoard2();
+    const boardCopy = JSON.parse(JSON.stringify(this.board));
+    this.gameBoard = this.createPuzzleBoard(boardCopy);
 
+    this.result = this.solveHelper(this.gameBoard);
     this.checkSolution = this.hasSolution(this.result);
 
     // this.gameBoardCopy = JSON.parse(JSON.stringify(this.gameBoard));
@@ -154,8 +154,6 @@ export class Board {
       }
       boardCopy.push(row);
     }
-
-    console.log(boardCopy);
     return boardCopy;
   }
 
@@ -172,13 +170,13 @@ export class Board {
             for (let k = 0; k < 9; k++) {
               const m = 3 * Math.floor(i / 3) + Math.floor(k / 3);
               const n = 3 * Math.floor(j / 3) + (k % 3);
-              if(boardCopy[i][k].set.size > 1){
+              if (boardCopy[i][k].set.size > 1) {
                 boardCopy[i][k].set.delete(item);
               }
-              if(boardCopy[k][j].set.size > 1){
+              if (boardCopy[k][j].set.size > 1) {
                 boardCopy[k][j].set.delete(item);
               }
-              if(boardCopy[m][n].set.size > 1){
+              if (boardCopy[m][n].set.size > 1) {
                 boardCopy[m][n].set.delete(item);
               }
             }
@@ -193,86 +191,24 @@ export class Board {
         }
       }
     }
+    console.log(boardCopy, 'BOARD COPY')
     return true;
   }
 
-  solve(boardCopy) {
-    for (let i = 0; i < 50; i++) {
-      let x = Math.floor(Math.random() * 9);
-      let y = Math.floor(Math.random() * 9);
+  createPuzzleBoard(boardCopy) {
+    for (let i = 0; i < 60; i++) {
+      let x = this.createRandomNum(9);
+      let y = this.createRandomNum(9);
       boardCopy[x][y].value = null;
       boardCopy[x][y].isEditable = true;
+      console.log('HAS A SOLUTION');
+      // if (this.solveHelper(boardCopy)) {
+
+      // } else {
+      //   console.log('DOESNT HAVE A SOLUTION')
+      //   continue;
+      // }
     }
     return boardCopy;
   }
-
-  isValid(board, row, col, cell) {
-    this.solve();
-    for (let i = 0; i < 9; i++) {
-      const m = 3 * Math.floor(row / 3) + Math.floor(i / 3);
-      const n = 3 * Math.floor(col / 3) + (i % 3);
-      if (
-        board[row][i].value === cell ||
-        board[i][col].value === cell ||
-        board[m][n].value === cell
-      ) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // solveSudoku(board) {
-  //   for (let i = 0; i < 9; i++) {
-  //     for (let j = 0; j < 9; j++) {
-  //       if (board[i][j].value === null) {
-  //         for (let k = 1; k <= 9; k++) {
-  //           if (this.isValid(board, i, j, k)) {
-  //             return true;
-  //           }
-  //         }
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   return true;
-  // }
-
-  // solverFunction(board) {
-  //   for (let i = 0; i < 9; i++) {
-  //     for (let j = 0; j < 9; j++) {
-  //       if (board[i][j].value === null) {
-  //         for (let k = 1; k <= 9; k++) {
-  //           if (this.isValid(board, i, j, k)) {
-  //             board[i][j].value = k;
-  //             if (this.solverFunction(board)) {
-  //               return board;
-  //             }
-  //             board[i][j].value = null;
-  //           }
-  //         }
-  //         return false;
-  //       }
-  //     }
-  //   }
-
-  //   return true;
-  // }
-
-  // removeCells(board, difficulty) {
-  //   const boardClone = JSON.parse(JSON.stringify(board));
-  //   let x = Math.floor(Math.random() * 9);
-  //   let y = Math.floor(Math.random() * 9);
-  //   boardClone[x][y].value = null;
-  //   boardClone[x][y].isEditable = true;
-  //   for (let i = 0; i < 2; i++) {
-  //     if (this.solveSudoku(boardClone)) {
-  //       let x = Math.floor(Math.random() * 9);
-  //       let y = Math.floor(Math.random() * 9);
-  //       boardClone[x][y].value = null;
-  //       boardClone[x][y].isEditable = true;
-  //     }
-  //   }
-  //   return boardClone;
-  // }
 }
