@@ -8,8 +8,8 @@ class Cell {
 
 export class Board {
   constructor(difficulty) {
-    this.board = this.generateBoard2();
-    const boardCopy = JSON.parse(JSON.stringify(this.board));
+    this.completedBoard = this.generateBoard2();
+    const boardCopy = JSON.parse(JSON.stringify(this.completedBoard));
     this.gameBoard = this.createPuzzleBoard(boardCopy, difficulty);
   }
 
@@ -205,3 +205,34 @@ export class Board {
     return boardCopy;
   }
 }
+
+export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
+  for (let i = 0; i < 9; i++) {
+    const k = 3 * Math.floor(rowIndex / 3) + Math.floor(i / 3);
+    const l = 3 * Math.floor(cellIndex / 3) + (i % 3);
+    if (
+      gameBoard[rowIndex][i].value === input ||
+      gameBoard[i][cellIndex].value === input ||
+      gameBoard[k][l].value === input
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
+export const isBoardComplete = (board) => {
+  let counter = 81;
+  board.map((row) => {
+    row.map((cell) => {
+      if (cell.value !== null) {
+        counter--;
+      }
+    });
+  });
+  if (counter >= 1) {
+    return false;
+  }
+  return true;
+};
+

@@ -1,19 +1,28 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import './App.css';
 import { Board } from './logic/Sudoku';
 import { makeStyles } from '@mui/styles';
-import { checkInput, isBoardComplete } from './components/utils';
+import { checkInput, isBoardComplete } from './logic/Sudoku';
 import Box from '@mui/material/Box';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import CellComponent from './components/CellComponent';
-import Difficulty from './components/UI/DifficultyLevel';
-import TimeCounter from './components/UI/TimeCounter';
+import Difficulty from './components/DifficultyLevel';
+import TimeCounter from './components/TimeCounter';
 
 const useStyles = makeStyles({
-
+  root: {
+    textAlign: 'center',
+    backgroundColor: 'rgba(39, 74, 119, 0.058)',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 'calc(10px + 2vmin)',
+    color: 'black',
+  },
   tableContainer: {
     marginBottom: '3rem',
     marginTop: '3rem',
@@ -22,14 +31,22 @@ const useStyles = makeStyles({
   },
   winOverlay: {
     marginBottom: '3rem',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: '3rem',
     height: '30.125rem',
     width: '29rem',
     'border-collapse': 'collapse',
     'border-spacing': 0,
     color: 'white',
-    textAlign: 'center',
-    background: '#91670c',
+    background: '#354f52',
+    '& h1': {
+      margin: 'auto !important',
+    },
+    '& div': {
+      margin: 'auto',
+    },
   },
   tableRow: {
     height: '3rem',
@@ -38,8 +55,8 @@ const useStyles = makeStyles({
     },
   },
   tableCell: {
-    width: '3rem',
-    height: '3rem',
+    width: '3.2rem',
+    height: '3.2rem',
     padding: '0 !important',
     border: '1px solid black !important',
     textAlign: 'center',
@@ -50,7 +67,7 @@ const useStyles = makeStyles({
       border: 'none',
       width: 'inherit',
       height: 'inherit',
-      fontSize: '200%',
+      fontSize: '240%',
       textAlign: 'center',
       color: '#1c1515',
       'caret-color': 'rgba(0,0,0,0)',
@@ -63,33 +80,39 @@ const useStyles = makeStyles({
 });
 
 function App() {
+  console.log('APP JS');
   const classes = useStyles();
-  const [wrongInput, setWrongInput] = useState('validInput');
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [gameBoardData, setGameBoardData] = useState(new Board(40));
+  const [gameBoardData, setGameBoardData] = useState(new Board(50));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
+
+  const [wrongInput, setWrongInput] = useState('validInput');
   const [wonGame, setWonGame] = useState(false);
-console.log(gameBoardData)
+  console.log(gameBoardData);
 
   const gameDifficultyLevel = (difficulty) => {
     setGameDifficulty(difficulty);
     setBoard();
     setGameBoardData(new Board(difficulty[0]));
-    setWonGame(false);
   };
 
-  // useEffect(() => {
-  //   setGameBoardData(new Board(50))
-  //   setBoard(gameBoardData.gameBoard);
-  // }, [gameBoardData.gameBoard]);
+  useEffect(() => {
+    setBoard(gameBoardData.gameBoard);
+  }, [gameBoardData.gameBoard]);
 
   const handleSolve = () => {
-    setBoard(gameBoardData.solvedGame);
+    setBoard(gameBoardData.completedBoard);
   };
 
   const handleNewGame = () => {
-    setGameBoardData(new Board());
     setBoard();
+    setGameBoardData(() => {
+      if (gameDifficulty) {
+        return new Board(gameDifficulty[0]);
+      } else {
+        return new Board(50);
+      }
+    });
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
@@ -112,48 +135,52 @@ console.log(gameBoardData)
     }
   };
   return (
-    <div className="App">
+    <div className={classes.root}>
       <Box>
-      <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
-      <button onClick={handleNewGame}>New Game</button>
-      <button onClick={handleSolve}>Solve</button>
-      {/* <TimeCounter /> */}
-      {wonGame && (
-        <div className={classes.winOverlay}>
-          <h1>Excellent!</h1>
-          <div>Difficulty: {gameDifficulty ? gameDifficulty[1] : 'Easy'}</div>
-          <div>Time: </div>
-        </div>
-      )}
-      {!wonGame && (
-        <div className={classes.tableContainer}>
-          <Table>
-            <TableBody>
-              {board &&
-                board.map((row, rowIndex) => {
-                  return (
-                    <TableRow key={rowIndex} className={classes.tableRow}>
-                      {row.map((cell, cellIndex) => (
-                        <TableCell
-                          className={classes.tableCell}
-                          key={cellIndex}
-                        >
-                          <CellComponent
-                            cell={cell}
-                            rowIndex={rowIndex}
-                            cellIndex={cellIndex}
-                            checkUserInput={checkUserInput}
-                            wrongInput={wrongInput}
-                          />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+        <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
+        <button onClick={handleNewGame}>New Game</button>
+        <button onClick={handleSolve}>Solve</button>
+        {/* <TimeCounter /> */}
+        {wonGame && (
+          <div className={classes.winOverlay}>
+            <div>
+              <h1>Excellent!</h1>
+              <div>
+                Difficulty: {gameDifficulty ? gameDifficulty[1] : 'Easy'}
+              </div>
+              <div>Time: </div>
+            </div>
+          </div>
+        )}
+        {!wonGame && (
+          <div className={classes.tableContainer}>
+            <Table>
+              <TableBody>
+                {board &&
+                  board.map((row, rowIndex) => {
+                    return (
+                      <TableRow key={rowIndex} className={classes.tableRow}>
+                        {row.map((cell, cellIndex) => (
+                          <TableCell
+                            className={classes.tableCell}
+                            key={cellIndex}
+                          >
+                            <CellComponent
+                              cell={cell}
+                              rowIndex={rowIndex}
+                              cellIndex={cellIndex}
+                              checkUserInput={checkUserInput}
+                              wrongInput={wrongInput}
+                            />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </Box>
     </div>
   );
