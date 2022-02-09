@@ -3,12 +3,10 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   invalidInput: {
-    '&:focus': {
-      color: 'red',
-    },
+    color: '#d00000',
   },
   validInput: {
-    color: 'black',
+    color: '#1c1515',
   },
 });
 
@@ -16,12 +14,12 @@ function CellComponent({
   cell,
   rowIndex,
   cellIndex,
-  wrongInput,
   checkUserInput,
 }) {
   const classes = useStyles();
   const [input, setInput] = useState();
   const [displayValue, setDisplayValue] = useState();
+  const [inputDisplay, setInputDisplay] = useState('validInput')
 
   const handleChange = (e) => {
     setInput('');
@@ -35,12 +33,16 @@ function CellComponent({
   };
 
   useEffect(() => {
+    setInputDisplay('validInput')
     if (cell.value === null) {
       setDisplayValue(input);
     } else {
       setDisplayValue(cell.value);
     }
-  }, [cell.value, input]);
+    if(cell.isValidInput === false){
+      setInputDisplay('invalidInput')
+    }
+  }, [cell.value, cell.isValidInput, input]);
 
   useEffect(() => {
     checkUserInput(input, rowIndex, cellIndex);
@@ -48,10 +50,10 @@ function CellComponent({
 
   return (
     <input
-      className={classes[wrongInput]}
+      className={classes[inputDisplay]}
       type="text"
       onChange={handleChange}
-      value={cell.value}
+      value={displayValue}
       disabled={!cell.isEditable}
       minLength="1"
       maxLength="1"

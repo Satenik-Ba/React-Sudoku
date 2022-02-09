@@ -1,8 +1,8 @@
 class Cell {
-  constructor(value, isEditable) {
+  constructor(value, isEditable, isValidInput) {
     this.value = value;
     this.isEditable = isEditable;
-    this.userValue = null;
+    this.isValidInput = isValidInput;
   }
 }
 
@@ -22,7 +22,7 @@ export class Board {
     for (let i = 0; i < 9; i++) {
       let row = [];
       for (let j = 0; j < 9; j++) {
-        row.push(new Cell(null, false));
+        row.push(new Cell(null, false, true));
       }
       board.push(row);
     }
@@ -197,6 +197,7 @@ export class Board {
       if (this.hasSolution(this.result)) {
         boardCopy[x][y].value = null;
         boardCopy[x][y].isEditable = true;
+        boardCopy[x][y].isValidInput = null; 
       } else {
         boardCopy[x][y].value = item;
         continue;
@@ -235,4 +236,3 @@ export const isBoardComplete = (board) => {
   }
   return true;
 };
-

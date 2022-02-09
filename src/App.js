@@ -22,27 +22,27 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     fontSize: '1.2rem',
     color: '#354f52',
-    fontWeight: 600, 
+    fontWeight: 600,
   },
   header: {
     display: 'flex',
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between',
 
     '& select': {
-      marginRight: 'auto'
+      marginRight: 'auto',
     },
     '& button': {
-      backgroundColor: '#354f52', 
+      backgroundColor: '#354f52',
       color: 'white',
       fontSize: '1rem',
       padding: '0.3rem 1.5rem',
       fontWeight: '500',
-      borderRadius: '5px', 
-      border: 'none', 
-      marginLeft: '0.5rem'
+      borderRadius: '5px',
+      border: 'none',
+      marginLeft: '0.5rem',
     },
   },
- 
+
   tableContainer: {
     marginBottom: '3rem',
     marginTop: '1.5rem',
@@ -91,7 +91,6 @@ const useStyles = makeStyles({
       height: 'inherit',
       fontSize: '230%',
       textAlign: 'center',
-      color: '#1c1515',
       'caret-color': 'rgba(0,0,0,0)',
       '&:focus': {
         outline: 'none',
@@ -107,7 +106,6 @@ function App() {
   const [gameDifficulty, setGameDifficulty] = useState();
   const [gameBoardData, setGameBoardData] = useState(new Board(50));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
-  const [wrongInput, setWrongInput] = useState('validInput');
   const [wonGame, setWonGame] = useState(false);
   console.log(gameBoardData);
 
@@ -134,18 +132,23 @@ function App() {
         return new Board(50);
       }
     });
-    setWonGame(false)
+    setWonGame(false);
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
+    const selectedCell = gameBoardData.gameBoard[rowIndex][cellIndex];
+    if (input === '') {
+      selectedCell.value = null;
+    }
     if (input) {
       if (!checkInput(input, gameBoardData.gameBoard, rowIndex, cellIndex)) {
-        setWrongInput('invalidInput');
+        selectedCell.value = input;
+        selectedCell.isValidInput = false;
         console.log('INVALID');
       } else {
         console.log('VALID');
-        setWrongInput('validInput');
-        gameBoardData.gameBoard[rowIndex][cellIndex].value = input;
+        selectedCell.value = input;
+        selectedCell.isValidInput = true;
       }
       if (isBoardComplete(gameBoardData.gameBoard)) {
         setWonGame(true);
@@ -153,20 +156,20 @@ function App() {
       }
     }
     if (input === '') {
-      gameBoardData.gameBoard[rowIndex][cellIndex].value = null;
+      selectedCell.value = null;
     }
   };
+
   return (
     <div className={classes.root}>
       <Box>
         {/* <TimeCounter /> */}
-        <div className ={classes.header}>
+        <div className={classes.header}>
           <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
           <div>
-          <button onClick={handleSolve}>Solve</button>
-          <button onClick={handleNewGame}>New Game</button>
+            <button onClick={handleSolve}>Solve</button>
+            <button onClick={handleNewGame}>New Game</button>
           </div>
-          
         </div>
         {wonGame && (
           <div className={classes.winOverlay}>
@@ -197,7 +200,6 @@ function App() {
                               rowIndex={rowIndex}
                               cellIndex={cellIndex}
                               checkUserInput={checkUserInput}
-                              wrongInput={wrongInput}
                             />
                           </TableCell>
                         ))}
