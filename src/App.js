@@ -20,12 +20,32 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 'calc(10px + 2vmin)',
-    color: 'black',
+    fontSize: '1.2rem',
+    color: '#354f52',
+    fontWeight: 600, 
   },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between', 
+
+    '& select': {
+      marginRight: 'auto'
+    },
+    '& button': {
+      backgroundColor: '#354f52', 
+      color: 'white',
+      fontSize: '1rem',
+      padding: '0.3rem 1.5rem',
+      fontWeight: '500',
+      borderRadius: '5px', 
+      border: 'none', 
+      marginLeft: '0.5rem'
+    },
+  },
+ 
   tableContainer: {
     marginBottom: '3rem',
-    marginTop: '3rem',
+    marginTop: '1.5rem',
     width: 'auto',
     height: 'auto',
   },
@@ -34,40 +54,42 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '3rem',
-    height: '30.125rem',
-    width: '29rem',
+    marginTop: '1.5rem',
+    height: '31rem',
+    width: '30rem',
     'border-collapse': 'collapse',
     'border-spacing': 0,
     color: 'white',
     background: '#354f52',
     '& h1': {
       margin: 'auto !important',
+      padding: '1rem',
     },
     '& div': {
       margin: 'auto',
+      padding: '1rem',
     },
   },
   tableRow: {
     height: '3rem',
     '&:nth-of-type(3n):not(:last-child)': {
-      borderBottom: '3px solid black',
+      borderBottom: '3px solid #354f52',
     },
   },
   tableCell: {
     width: '3.2rem',
     height: '3.2rem',
     padding: '0 !important',
-    border: '1px solid black !important',
+    border: '1px solid #354f52 !important',
     textAlign: 'center',
     '&:nth-of-type(3n):not(:last-child)': {
-      borderRight: '3px solid black !important',
+      borderRight: '3px solid #354f52 !important',
     },
     '& input': {
       border: 'none',
       width: 'inherit',
       height: 'inherit',
-      fontSize: '240%',
+      fontSize: '230%',
       textAlign: 'center',
       color: '#1c1515',
       'caret-color': 'rgba(0,0,0,0)',
@@ -85,7 +107,6 @@ function App() {
   const [gameDifficulty, setGameDifficulty] = useState();
   const [gameBoardData, setGameBoardData] = useState(new Board(50));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
-
   const [wrongInput, setWrongInput] = useState('validInput');
   const [wonGame, setWonGame] = useState(false);
   console.log(gameBoardData);
@@ -105,7 +126,7 @@ function App() {
   };
 
   const handleNewGame = () => {
-    setBoard();
+    setBoard(null);
     setGameBoardData(() => {
       if (gameDifficulty) {
         return new Board(gameDifficulty[0]);
@@ -113,6 +134,7 @@ function App() {
         return new Board(50);
       }
     });
+    setWonGame(false)
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
@@ -137,10 +159,15 @@ function App() {
   return (
     <div className={classes.root}>
       <Box>
-        <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
-        <button onClick={handleNewGame}>New Game</button>
-        <button onClick={handleSolve}>Solve</button>
         {/* <TimeCounter /> */}
+        <div className ={classes.header}>
+          <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
+          <div>
+          <button onClick={handleSolve}>Solve</button>
+          <button onClick={handleNewGame}>New Game</button>
+          </div>
+          
+        </div>
         {wonGame && (
           <div className={classes.winOverlay}>
             <div>

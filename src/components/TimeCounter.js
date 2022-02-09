@@ -1,27 +1,66 @@
-import React from 'react';
-import { useCountUp } from 'react-countup';
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@mui/styles';
+import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
+import PauseIcon from '@mui/icons-material/Pause';
 
-const TimeCounter = () => {
-  const countUpRef = React.useRef(null);
-  const { start, pauseResume, reset, update } = useCountUp({
-    ref: countUpRef,
-    start: 0,
-    end: 1234567,
-    delay: 1000,
-    duration: 1,
-    onReset: () => console.log('Resetted!'),
-    onUpdate: () => console.log('Updated!'),
-    onPauseResume: () => console.log('Paused or resumed!'),
-    onStart: ({ pauseResume }) => console.log(pauseResume),
-    onEnd: ({ pauseResume }) => console.log(pauseResume),
-  });
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    justifyContent: 'right',
+    alignItems: 'center',
+  },
+  icons: {
+    border: 'none',
+    color: '#354f52',
+    padding: '0 0.5rem'
+  },
+});
+
+const TimeCounter = ({}) => {
+  console.log('TIME COUNTER')
+  const classes = useStyles();
+  const [time, setTime] = useState(0);
+  const [timerOn, setTimerOn] = useState(true);
+ 
+  useEffect(() => {
+    let interval = null;
+    if (timerOn) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10);
+      }, 10);
+    } else if (!timerOn) {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [timerOn]);
+
   return (
-    <div>
-      <div ref={countUpRef} />
-      <button onClick={start}>Start</button>
-      <button onClick={reset}>Reset</button>
-      <button onClick={pauseResume}>Pause/Resume</button>
-      <button onClick={() => update(2000)}>Update to 2000</button>
+    <div className={classes.root}>
+      <div>
+        <span>{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+        <span>{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span>
+      </div>
+      <div>
+        {!timerOn && time === 0 && (
+          <PlayCircleFilledRoundedIcon
+            className={classes.icons}
+            onClick={() => setTimerOn(true)}
+          />
+        )}
+        {timerOn && (
+          <PauseIcon
+            className={classes.icons}
+            onClick={() => setTimerOn(false)}
+          />
+        )}
+        {!timerOn && time > 0 && (
+          <PlayCircleFilledRoundedIcon
+            className={classes.icons}
+            onClick={() => setTimerOn(true)}
+          />
+        )}
+      </div>
     </div>
   );
 };

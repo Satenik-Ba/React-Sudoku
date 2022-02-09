@@ -18,7 +18,7 @@ const DifficultyLevel = ({ gameDifficultyLevel }) => {
     <Box sx={{ minWidth: 50 }}>
       <div>
         <label>Difficulty </label>
-        <NativeSelect onChange={handleChange}>
+        <NativeSelect onChange={handleChange} disableUnderline>
           <option value={'easy'}>Easy</option>
           <option value={'medium'}>Medium</option>
           <option value={'hard'}>Hard</option>
