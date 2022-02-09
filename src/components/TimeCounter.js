@@ -12,16 +12,30 @@ const useStyles = makeStyles({
   icons: {
     border: 'none',
     color: '#354f52',
-    padding: '0 0.5rem'
+    padding: '0 0.5rem',
   },
 });
 
-const TimeCounter = ({}) => {
-  console.log('TIME COUNTER')
+const TimeCounter = ({ wonGame, timeCompleted, solved }) => {
+  console.log('TIME COUNTER');
   const classes = useStyles();
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(true);
- 
+
+  useEffect(() => {
+    if(wonGame) {
+      setTimerOn(false);
+      timeCompleted(time);
+    } else {
+      setTime(0);
+      setTimerOn(true);
+    }
+    if (solved && !wonGame) {
+      setTime(0);
+      setTimerOn(false);
+    }
+  }, [wonGame, timeCompleted, solved]);
+
   useEffect(() => {
     let interval = null;
     if (timerOn) {

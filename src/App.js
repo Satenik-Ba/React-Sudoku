@@ -104,9 +104,11 @@ function App() {
   console.log('APP JS');
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [gameBoardData, setGameBoardData] = useState(new Board(50));
+  const [gameBoardData, setGameBoardData] = useState(new Board(3));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
   const [wonGame, setWonGame] = useState(false);
+  const [timeComp, setTimeComp] = useState(null);
+  const [solved, setSolved] = useState(false)
   console.log(gameBoardData);
 
   const gameDifficultyLevel = (difficulty) => {
@@ -121,6 +123,8 @@ function App() {
 
   const handleSolve = () => {
     setBoard(gameBoardData.completedBoard);
+    setSolved(true)
+    setWonGame(false);
   };
 
   const handleNewGame = () => {
@@ -133,8 +137,11 @@ function App() {
       }
     });
     setWonGame(false);
+    setSolved(false)
   };
-
+  const timeCompleted = (time) => {
+    setTimeComp(time);
+  };
   const checkUserInput = (input, rowIndex, cellIndex) => {
     const selectedCell = gameBoardData.gameBoard[rowIndex][cellIndex];
     if (input === '') {
@@ -144,30 +151,27 @@ function App() {
       if (!checkInput(input, gameBoardData.gameBoard, rowIndex, cellIndex)) {
         selectedCell.value = input;
         selectedCell.isValidInput = false;
-        console.log('INVALID');
       } else {
-        console.log('VALID');
         selectedCell.value = input;
         selectedCell.isValidInput = true;
       }
       if (isBoardComplete(gameBoardData.gameBoard)) {
         setWonGame(true);
-        console.log('YOU WIN THE GAME');
       }
     }
     if (input === '') {
       selectedCell.value = null;
     }
   };
-
+  console.log(timeComp);
   return (
     <div className={classes.root}>
       <Box>
-        {/* <TimeCounter /> */}
+        <TimeCounter wonGame={wonGame} solved ={solved} timeCompleted={timeCompleted} />
         <div className={classes.header}>
           <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
           <div>
-            <button onClick={handleSolve}>Solve</button>
+            {!wonGame && <button onClick={handleSolve}>Solve</button>}
             <button onClick={handleNewGame}>New Game</button>
           </div>
         </div>
@@ -178,7 +182,16 @@ function App() {
               <div>
                 Difficulty: {gameDifficulty ? gameDifficulty[1] : 'Easy'}
               </div>
-              <div>Time: </div>
+              <div>
+                Time:
+                <span>
+                  {' '}
+                  {('0' + Math.floor((timeComp / 60000) % 60)).slice(-2)}:
+                </span>
+                <span>
+                  {('0' + Math.floor((timeComp / 1000) % 60)).slice(-2)}
+                </span>
+              </div>
             </div>
           </div>
         )}
