@@ -224,8 +224,8 @@ export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
 
 export const isBoardComplete = (board) => {
   let counter = 81;
-  board.map((row) => {
-    row.map((cell) => {
+  board.forEach((row) => {
+    row.forEach((cell) => {
       if (cell.value !== null) {
         counter--;
       }

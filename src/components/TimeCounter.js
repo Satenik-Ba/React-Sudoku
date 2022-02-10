@@ -17,7 +17,6 @@ const useStyles = makeStyles({
 });
 
 const TimeCounter = ({ wonGame, timeCompleted, solved }) => {
-  console.log('TIME COUNTER');
   const classes = useStyles();
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(true);

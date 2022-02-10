@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Board } from './logic/Sudoku';
 import { makeStyles } from '@mui/styles';
 import { checkInput, isBoardComplete } from './logic/Sudoku';
@@ -101,19 +101,18 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  console.log('APP JS');
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [gameBoardData, setGameBoardData] = useState(new Board(3));
+  const [gameBoardData, setGameBoardData] = useState(new Board(50));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
   const [wonGame, setWonGame] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
-  const [solved, setSolved] = useState(false)
-  console.log(gameBoardData);
+  const [solved, setSolved] = useState(false);
 
   const gameDifficultyLevel = (difficulty) => {
     setGameDifficulty(difficulty);
     setBoard();
+    setSolved(false);
     setGameBoardData(new Board(difficulty[0]));
   };
 
@@ -123,7 +122,7 @@ function App() {
 
   const handleSolve = () => {
     setBoard(gameBoardData.completedBoard);
-    setSolved(true)
+    setSolved(true);
     setWonGame(false);
   };
 
@@ -137,7 +136,7 @@ function App() {
       }
     });
     setWonGame(false);
-    setSolved(false)
+    setSolved(false);
   };
   const timeCompleted = (time) => {
     setTimeComp(time);
@@ -163,15 +162,21 @@ function App() {
       selectedCell.value = null;
     }
   };
-  console.log(timeComp);
+  
   return (
     <div className={classes.root}>
       <Box>
-        <TimeCounter wonGame={wonGame} solved ={solved} timeCompleted={timeCompleted} />
+        <TimeCounter
+          wonGame={wonGame}
+          solved={solved}
+          timeCompleted={timeCompleted}
+        />
         <div className={classes.header}>
-          <Difficulty gameDifficultyLevel={gameDifficultyLevel} />
+          <Difficulty gameDifficultyLevel={gameDifficultyLevel} wonGame={wonGame}/>
           <div>
-            {!wonGame && <button onClick={handleSolve}>Solve</button>}
+            <button onClick={handleSolve} disabled={wonGame}>
+              Solve
+            </button>
             <button onClick={handleNewGame}>New Game</button>
           </div>
         </div>
