@@ -5,7 +5,6 @@ class Cell {
     this.isValidInput = isValidInput;
   }
 }
-
 export class Board {
   constructor(difficulty) {
     this.completedBoard = this.generateBoard2();
@@ -16,7 +15,6 @@ export class Board {
   createRandomNum(max) {
     return Math.floor(Math.random() * max);
   }
-
   createEmptyBoard() {
     let board = [];
     for (let i = 0; i < 9; i++) {

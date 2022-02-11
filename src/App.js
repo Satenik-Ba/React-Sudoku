@@ -27,7 +27,6 @@ const useStyles = makeStyles({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-
     '& select': {
       marginRight: 'auto',
     },
@@ -127,7 +126,7 @@ function App() {
   };
 
   const handleNewGame = () => {
-    setBoard(null);
+    setBoard();
     setGameBoardData(() => {
       if (gameDifficulty) {
         return new Board(gameDifficulty[0]);
@@ -162,7 +161,7 @@ function App() {
       selectedCell.value = null;
     }
   };
-  
+
   return (
     <div className={classes.root}>
       <Box>
@@ -172,7 +171,10 @@ function App() {
           timeCompleted={timeCompleted}
         />
         <div className={classes.header}>
-          <Difficulty gameDifficultyLevel={gameDifficultyLevel} wonGame={wonGame}/>
+          <Difficulty
+            gameDifficultyLevel={gameDifficultyLevel}
+            wonGame={wonGame}
+          />
           <div>
             <button onClick={handleSolve} disabled={wonGame}>
               Solve
@@ -191,10 +193,13 @@ function App() {
                 Time:
                 <span>
                   {' '}
-                  {('0' + Math.floor((timeComp / 60000) % 60)).slice(-2)}:
+                  {('0' + Math.floor((timeComp.current / 60000) % 60)).slice(
+                    -2
+                  )}
+                  :
                 </span>
                 <span>
-                  {('0' + Math.floor((timeComp / 1000) % 60)).slice(-2)}
+                  {('0' + Math.floor((timeComp.current / 1000) % 60)).slice(-2)}
                 </span>
               </div>
             </div>

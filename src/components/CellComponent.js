@@ -18,7 +18,7 @@ function CellComponent({
 }) {
   const classes = useStyles();
   const [input, setInput] = useState();
-  const [displayValue, setDisplayValue] = useState();
+  const [displayValue, setDisplayValue] = useState('');
   const [inputDisplay, setInputDisplay] = useState('validInput')
 
   const handleChange = (e) => {
@@ -46,7 +46,7 @@ function CellComponent({
 
   useEffect(() => {
     checkUserInput(input, rowIndex, cellIndex);
-  }, [input, rowIndex, cellIndex]);
+  }, [input, rowIndex, cellIndex, checkUserInput]);
 
   return (
     <input
