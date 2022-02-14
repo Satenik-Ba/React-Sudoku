@@ -210,7 +210,6 @@ export class Board {
 }
 
 export const checkInput = (selectedCell) => {
-  console.log(selectedCell.value, selectedCell.userSelection);
   if (selectedCell.value === selectedCell.userSelection) {
     return true;
   }

@@ -153,7 +153,6 @@ function App() {
         selectedCell.userSelection = input;
         selectedCell.isValidInput = true;
       }
-      console.log(isBoardComplete(gameBoardData.gameBoard))
       if (isBoardComplete(gameBoardData.gameBoard)) {
         setWonGame(true);
       }
