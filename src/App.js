@@ -102,12 +102,13 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [gameBoardData, setGameBoardData] = useState(new Board(50));
+  const [gameBoardData, setGameBoardData] = useState(new Board(3));
   const [board, setBoard] = useState(gameBoardData.gameBoard);
   const [wonGame, setWonGame] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);
 
+  console.log(gameBoardData);
   const gameDifficultyLevel = (difficulty) => {
     setGameDifficulty(difficulty);
     setBoard();
@@ -143,22 +144,19 @@ function App() {
   const checkUserInput = (input, rowIndex, cellIndex) => {
     const selectedCell = gameBoardData.gameBoard[rowIndex][cellIndex];
     if (input === '') {
-      selectedCell.value = null;
+      selectedCell.userSelection = null;
     }
     if (input) {
-      if (!checkInput(input, gameBoardData.gameBoard, rowIndex, cellIndex)) {
-        selectedCell.value = input;
-        selectedCell.isValidInput = false;
-      } else {
-        selectedCell.value = input;
+      selectedCell.userSelection = input;
+      selectedCell.isValidInput = false;
+      if (checkInput(selectedCell)) {
+        selectedCell.userSelection = input;
         selectedCell.isValidInput = true;
       }
+      console.log(isBoardComplete(gameBoardData.gameBoard))
       if (isBoardComplete(gameBoardData.gameBoard)) {
         setWonGame(true);
       }
-    }
-    if (input === '') {
-      selectedCell.value = null;
     }
   };
 
@@ -193,13 +191,10 @@ function App() {
                 Time:
                 <span>
                   {' '}
-                  {('0' + Math.floor((timeComp.current / 60000) % 60)).slice(
-                    -2
-                  )}
-                  :
+                  {('0' + Math.floor((timeComp / 60000) % 60)).slice(-2)}:
                 </span>
                 <span>
-                  {('0' + Math.floor((timeComp.current / 1000) % 60)).slice(-2)}
+                  {('0' + Math.floor((timeComp / 1000) % 60)).slice(-2)}
                 </span>
               </div>
             </div>

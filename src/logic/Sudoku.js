@@ -3,13 +3,13 @@ class Cell {
     this.value = value;
     this.isEditable = isEditable;
     this.isValidInput = isValidInput;
+    this.userSelection = this.value;
   }
 }
+
 export class Board {
   constructor(difficulty) {
-    this.completedBoard = this.generateBoard2();
-    const boardCopy = JSON.parse(JSON.stringify(this.completedBoard));
-    this.gameBoard = this.createPuzzleBoard(boardCopy, difficulty);
+    this.gameBoard = this.createPuzzleBoard(difficulty);
   }
 
   createRandomNum(max) {
@@ -39,7 +39,7 @@ export class Board {
     return a;
   }
 
-  generateBoard2() {
+  generateBoard() {
     let board = this.createEmptyBoard();
     let rowsConstraints = this.generateArrOfSets();
     let colsConstraints = this.generateArrOfSets();
@@ -121,7 +121,11 @@ export class Board {
     let index = this.createRandomNum(arr.length);
     return arr[index];
   }
-
+  returnCoordinates(i, j, k) {
+    const m = 3 * Math.floor(i / 3) + Math.floor(k / 3);
+    const n = 3 * Math.floor(j / 3) + (k % 3);
+    return [m, n];
+  }
   solveHelper(board) {
     let boardCopy = [];
     for (let i = 0; i < 9; i++) {
@@ -134,8 +138,7 @@ export class Board {
           row.push({ isValidated: true, set: new Set([board[i][j].value]) });
         } else {
           for (let k = 0; k < 9; k++) {
-            const m = 3 * Math.floor(i / 3) + Math.floor(k / 3);
-            const n = 3 * Math.floor(j / 3) + (k % 3);
+            const [m, n] = this.returnCoordinates(i, j, k);
             rowSet.delete(board[i][k].value);
             colSet.delete(board[k][j].value);
             square.delete(board[m][n].value);
@@ -160,8 +163,7 @@ export class Board {
             hasChanged = true;
             const item = [...boardCopy[i][j].set][0];
             for (let k = 0; k < 9; k++) {
-              const m = 3 * Math.floor(i / 3) + Math.floor(k / 3);
-              const n = 3 * Math.floor(j / 3) + (k % 3);
+              const [m, n] = this.returnCoordinates(i, j, k);
               if (boardCopy[i][k].set.size > 1) {
                 boardCopy[i][k].set.delete(item);
               }
@@ -186,16 +188,18 @@ export class Board {
     return true;
   }
 
-  createPuzzleBoard(boardCopy, difficulty) {
-    this.result = this.solveHelper(boardCopy);
+  createPuzzleBoard(difficulty) {
+    const completedBoard = this.generateBoard();
+    const boardCopy = JSON.parse(JSON.stringify(completedBoard));
+    const result = this.solveHelper(boardCopy);
     for (let i = 0; i < difficulty; i++) {
       let x = this.createRandomNum(9);
       let y = this.createRandomNum(9);
       let item = boardCopy[x][y].value;
-      if (this.hasSolution(this.result)) {
-        boardCopy[x][y].value = null;
+      if (this.hasSolution(result)) {
+        boardCopy[x][y].userSelection = null;
         boardCopy[x][y].isEditable = true;
-        boardCopy[x][y].isValidInput = null; 
+        boardCopy[x][y].isValidInput = null;
       } else {
         boardCopy[x][y].value = item;
         continue;
@@ -205,32 +209,24 @@ export class Board {
   }
 }
 
-export const checkInput = (input, gameBoard, rowIndex, cellIndex) => {
+export const checkInput = (selectedCell) => {
+  console.log(selectedCell.value, selectedCell.userSelection);
+  if (selectedCell.value === selectedCell.userSelection) {
+    return true;
+  }
+  return false;
+};
+
+export const isBoardComplete = (board) => {
   for (let i = 0; i < 9; i++) {
-    const k = 3 * Math.floor(rowIndex / 3) + Math.floor(i / 3);
-    const l = 3 * Math.floor(cellIndex / 3) + (i % 3);
-    if (
-      gameBoard[rowIndex][i].value === input ||
-      gameBoard[i][cellIndex].value === input ||
-      gameBoard[k][l].value === input
-    ) {
-      return false;
+    for (let j = 0; j < 9; j++) {
+      if (!board[i][j].isValidInput) {
+        return false;
+      }
     }
   }
   return true;
 };
 
-export const isBoardComplete = (board) => {
-  let counter = 81;
-  board.forEach((row) => {
-    row.forEach((cell) => {
-      if (cell.value !== null) {
-        counter--;
-      }
-    });
-  });
-  if (counter >= 1) {
-    return false;
-  }
-  return true;
-};
+// one line function discription
+// small and consice function
