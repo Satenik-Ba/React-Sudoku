@@ -10,20 +10,10 @@ const useStyles = makeStyles({
   },
 });
 
-function CellComponent({ cell, rowIndex, cellIndex, checkUserInput }) {
+function CellComponent({ cell, rowIndex, cellIndex, checkUserInput, solved }) {
   const classes = useStyles();
-  const [input, setInput] = useState();
+  const [input, setInput] = useState('');
   const [inputDisplay, setInputDisplay] = useState('validInput');
-
-  const calculateDisplayValue = (cell) => {
-    if (!cell.isEditable) {
-      return cell.value;
-    }
-    if (input) {
-      return input;
-    }
-    return '';
-  };
 
   const handleChange = (e) => {
     setInput('');
@@ -33,23 +23,36 @@ function CellComponent({ cell, rowIndex, cellIndex, checkUserInput }) {
       return null;
     }
     setInput(userInput);
+    checkUserInput(userInput, rowIndex, cellIndex);
+  };
+
+  const calculateDisplayValue = () => {
+    if (solved || !cell.isEditable) {
+      return cell.value;
+    }
+    if (input === '') {
+      return '';
+    }
+    if (cell.userSelection) {
+      return cell.userSelection;
+    }
+    return '';
   };
 
   useEffect(() => {
-    checkUserInput(input, rowIndex, cellIndex);
     if (cell.isValidInput === false) {
       setInputDisplay('invalidInput');
     } else {
       setInputDisplay('validInput');
     }
-  }, [input, rowIndex, cellIndex, checkUserInput, cell.isValidInput]);
+  }, [cell.isValidInput]);
 
   return (
     <input
       className={classes[inputDisplay]}
       type="text"
       onChange={handleChange}
-      value={calculateDisplayValue(cell)}
+      value={calculateDisplayValue()}
       disabled={!cell.isEditable}
       minLength="1"
       maxLength="1"

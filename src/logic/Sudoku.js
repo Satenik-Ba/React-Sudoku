@@ -3,7 +3,7 @@ class Cell {
     this.value = value;
     this.isEditable = isEditable;
     this.isValidInput = isValidInput;
-    this.userSelection = this.value;
+    this.userSelection = null;
   }
 }
 

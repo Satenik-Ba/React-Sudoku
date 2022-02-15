@@ -23,6 +23,10 @@ const useStyles = makeStyles({
     fontSize: '1.2rem',
     color: '#354f52',
     fontWeight: 600,
+    '& h1': {
+      fontSize: '1.5rem',
+      fontWeight: 600,
+    },
   },
   header: {
     display: 'flex',
@@ -102,38 +106,30 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [gameBoardData, setGameBoardData] = useState(new Board(3));
-  const [board, setBoard] = useState(gameBoardData.gameBoard);
+  const [board, setBoard] = useState(() => new Board(50).gameBoard);
   const [wonGame, setWonGame] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);
 
-  console.log(gameBoardData);
+  // console.log(board)
+
   const gameDifficultyLevel = (difficulty) => {
+    setBoard(new Board(difficulty[0]).gameBoard);
     setGameDifficulty(difficulty);
-    setBoard();
     setSolved(false);
-    setGameBoardData(new Board(difficulty[0]));
   };
 
-  useEffect(() => {
-    setBoard(gameBoardData.gameBoard);
-  }, [gameBoardData.gameBoard]);
-
   const handleSolve = () => {
-    setBoard(gameBoardData.completedBoard);
     setSolved(true);
     setWonGame(false);
   };
 
   const handleNewGame = () => {
-    setBoard();
-    setGameBoardData(() => {
+    setBoard(() => {
       if (gameDifficulty) {
-        return new Board(gameDifficulty[0]);
-      } else {
-        return new Board(50);
+        return new Board(gameDifficulty[0]).gameBoard;
       }
+      return new Board(50).gameBoard;
     });
     setWonGame(false);
     setSolved(false);
@@ -142,7 +138,7 @@ function App() {
     setTimeComp(time);
   };
   const checkUserInput = (input, rowIndex, cellIndex) => {
-    const selectedCell = gameBoardData.gameBoard[rowIndex][cellIndex];
+    const selectedCell = board[rowIndex][cellIndex];
     if (input === '') {
       selectedCell.userSelection = null;
     }
@@ -153,7 +149,7 @@ function App() {
         selectedCell.userSelection = input;
         selectedCell.isValidInput = true;
       }
-      if (isBoardComplete(gameBoardData.gameBoard)) {
+      if (isBoardComplete(board)) {
         setWonGame(true);
       }
     }
@@ -161,12 +157,13 @@ function App() {
 
   return (
     <div className={classes.root}>
+      <h1>Sudoku</h1>
       <Box>
-        <TimeCounter
+        {/* <TimeCounter
           wonGame={wonGame}
           solved={solved}
           timeCompleted={timeCompleted}
-        />
+        /> */}
         <div className={classes.header}>
           <Difficulty
             gameDifficultyLevel={gameDifficultyLevel}
@@ -203,26 +200,26 @@ function App() {
           <div className={classes.tableContainer}>
             <Table>
               <TableBody>
-                {board &&
-                  board.map((row, rowIndex) => {
-                    return (
-                      <TableRow key={rowIndex} className={classes.tableRow}>
-                        {row.map((cell, cellIndex) => (
-                          <TableCell
-                            className={classes.tableCell}
-                            key={cellIndex}
-                          >
-                            <CellComponent
-                              cell={cell}
-                              rowIndex={rowIndex}
-                              cellIndex={cellIndex}
-                              checkUserInput={checkUserInput}
-                            />
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    );
-                  })}
+                {board.map((row, rowIndex) => {
+                  return (
+                    <TableRow key={rowIndex} className={classes.tableRow}>
+                      {row.map((cell, cellIndex) => (
+                        <TableCell
+                          className={classes.tableCell}
+                          key={cellIndex}
+                        >
+                          <CellComponent
+                            cell={cell}
+                            rowIndex={rowIndex}
+                            cellIndex={cellIndex}
+                            checkUserInput={checkUserInput}
+                            solved={solved}
+                          />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
