@@ -14,7 +14,7 @@ const DifficultyLevel = ({ gameDifficultyLevel, wonGame }) => {
   };
 
   return (
-    <Box sx={{ minWidth: 50 }}>
+    <Box sx={{ minWidth: 40 }}>
       <div>
         <label>Difficulty </label>
         <NativeSelect

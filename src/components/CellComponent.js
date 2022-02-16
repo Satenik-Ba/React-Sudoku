@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
+import { calculateDisplayValue, checkDisplayValue } from '../logic/Sudoku';
 
 const useStyles = makeStyles({
-  invalidInput: {
+  invalid: {
     color: '#d00000',
   },
-  validInput: {
+  valid: {
     color: '#1c1515',
   },
 });
 
-function CellComponent({ cell, rowIndex, cellIndex, checkUserInput, solved }) {
+function CellComponent({
+  cell,
+  rowIndex,
+  cellIndex,
+  checkUserInput,
+  solved,
+  newGame,
+}) {
   const classes = useStyles();
   const [input, setInput] = useState('');
-  const [inputDisplay, setInputDisplay] = useState('validInput');
 
   const handleChange = (e) => {
     setInput('');
+    if (e.target.value === '') {
+      setInput('');
+      checkUserInput(e.target.value, rowIndex, cellIndex);
+    }
     let userInput = parseInt(e.target.value);
     if (isNaN(userInput) || userInput === 0) {
       e.target.value = '';
@@ -26,33 +37,18 @@ function CellComponent({ cell, rowIndex, cellIndex, checkUserInput, solved }) {
     checkUserInput(userInput, rowIndex, cellIndex);
   };
 
-  const calculateDisplayValue = () => {
-    if (solved || !cell.isEditable) {
-      return cell.value;
-    }
-    if (input === '') {
-      return '';
-    }
-    if (cell.userSelection) {
-      return cell.userSelection;
-    }
-    return '';
-  };
-
   useEffect(() => {
-    if (cell.isValidInput === false) {
-      setInputDisplay('invalidInput');
-    } else {
-      setInputDisplay('validInput');
+    if (newGame) {
+      setInput('');
     }
-  }, [cell.isValidInput]);
+  }, [newGame]);
 
   return (
     <input
-      className={classes[inputDisplay]}
+      className={classes[checkDisplayValue(cell, solved)]}
       type="text"
       onChange={handleChange}
-      value={calculateDisplayValue()}
+      value={calculateDisplayValue(input, cell, solved)}
       disabled={!cell.isEditable}
       minLength="1"
       maxLength="1"

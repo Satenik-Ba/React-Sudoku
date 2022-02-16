@@ -110,21 +110,24 @@ function App() {
   const [wonGame, setWonGame] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);
+  const [newGame, setNewGame] = useState(false);
 
-  // console.log(board)
+  console.log(board);
 
   const gameDifficultyLevel = (difficulty) => {
-    setBoard(new Board(difficulty[0]).gameBoard);
+    setNewGame(true);
+    setBoard(() => new Board(difficulty[0]).gameBoard);
     setGameDifficulty(difficulty);
     setSolved(false);
   };
 
   const handleSolve = () => {
     setSolved(true);
-    setWonGame(false);
+    setNewGame(false);
   };
 
   const handleNewGame = () => {
+    setNewGame(true);
     setBoard(() => {
       if (gameDifficulty) {
         return new Board(gameDifficulty[0]).gameBoard;
@@ -137,21 +140,22 @@ function App() {
   const timeCompleted = (time) => {
     setTimeComp(time);
   };
+
   const checkUserInput = (input, rowIndex, cellIndex) => {
+    setNewGame(false);
     const selectedCell = board[rowIndex][cellIndex];
     if (input === '') {
       selectedCell.userSelection = null;
+      selectedCell.isValidInput = null;
     }
-    if (input) {
-      selectedCell.userSelection = input;
+    selectedCell.userSelection = input;
+    if (checkInput(selectedCell)) {
+      selectedCell.isValidInput = true;
+    } else {
       selectedCell.isValidInput = false;
-      if (checkInput(selectedCell)) {
-        selectedCell.userSelection = input;
-        selectedCell.isValidInput = true;
-      }
-      if (isBoardComplete(board)) {
-        setWonGame(true);
-      }
+    }
+    if (isBoardComplete(board)) {
+      setWonGame(true);
     }
   };
 
@@ -159,11 +163,11 @@ function App() {
     <div className={classes.root}>
       <h1>Sudoku</h1>
       <Box>
-        {/* <TimeCounter
+        <TimeCounter
           wonGame={wonGame}
           solved={solved}
           timeCompleted={timeCompleted}
-        /> */}
+        />
         <div className={classes.header}>
           <Difficulty
             gameDifficultyLevel={gameDifficultyLevel}
@@ -214,6 +218,7 @@ function App() {
                             cellIndex={cellIndex}
                             checkUserInput={checkUserInput}
                             solved={solved}
+                            newGame={newGame}
                           />
                         </TableCell>
                       ))}

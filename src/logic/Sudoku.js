@@ -227,5 +227,31 @@ export const isBoardComplete = (board) => {
   return true;
 };
 
+export const checkDisplayValue = (cell, solved) => {
+  if (solved) {
+    return 'valid';
+  }
+  if (cell.isValidInput === false) {
+    return 'invalid';
+  }
+  return 'valid';
+};
+
+export const calculateDisplayValue = (input, cell, solved) => {
+  if (solved || !cell.isEditable) {
+    return cell.value;
+  }
+  if (cell.userSelection === null) {
+    return '';
+  }
+  if (input === '') {
+    return '';
+  }
+  if (cell.userSelection) {
+    return cell.userSelection;
+  }
+  return '';
+};
+
 // one line function discription
 // small and consice function
