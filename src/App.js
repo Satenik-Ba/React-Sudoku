@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Board } from './logic/Sudoku';
 import { makeStyles } from '@mui/styles';
-import { checkInput, isBoardComplete } from './logic/Sudoku';
+import {
+  isUserSelectionCorrect,
+  isBoardComplete,
+  createBoard,
+} from './logic/Sudoku';
 import Box from '@mui/material/Box';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -106,7 +109,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [board, setBoard] = useState(() => new Board(50).gameBoard);
+  const [board, setBoard] = useState(() => createBoard(50));
   const [wonGame, setWonGame] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);
@@ -116,7 +119,7 @@ function App() {
 
   const gameDifficultyLevel = (difficulty) => {
     setNewGame(true);
-    setBoard(() => new Board(difficulty[0]).gameBoard);
+    setBoard(() => createBoard(difficulty[0]));
     setGameDifficulty(difficulty);
     setSolved(false);
   };
@@ -130,9 +133,9 @@ function App() {
     setNewGame(true);
     setBoard(() => {
       if (gameDifficulty) {
-        return new Board(gameDifficulty[0]).gameBoard;
+        return createBoard(gameDifficulty[0]);
       }
-      return new Board(50).gameBoard;
+      return createBoard(50);
     });
     setWonGame(false);
     setSolved(false);
@@ -149,11 +152,9 @@ function App() {
       selectedCell.isValidInput = null;
     }
     selectedCell.userSelection = input;
-    if (checkInput(selectedCell)) {
-      selectedCell.isValidInput = true;
-    } else {
-      selectedCell.isValidInput = false;
-    }
+    selectedCell.isValidInput = isUserSelectionCorrect(selectedCell);
+    setBoard([...board]);
+
     if (isBoardComplete(board)) {
       setWonGame(true);
     }

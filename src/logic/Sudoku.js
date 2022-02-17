@@ -7,15 +7,22 @@ class Cell {
   }
 }
 
-export class Board {
-  constructor(difficulty) {
-    this.gameBoard = this.createPuzzleBoard(difficulty);
-  }
+// change the Board Class into a function
 
-  createRandomNum(max) {
+export function createBoard (difficulty) {
+  return createPuzzleBoard(difficulty)
+}
+
+// export class Board {
+//   constructor(difficulty) {
+//     this.gameBoard = this.createPuzzleBoard(difficulty);
+//   }
+
+  function createRandomNum(max) {
     return Math.floor(Math.random() * max);
   }
-  createEmptyBoard() {
+
+  function createEmptyBoard() {
     let board = [];
     for (let i = 0; i < 9; i++) {
       let row = [];
@@ -27,24 +34,24 @@ export class Board {
     return board;
   }
 
-  generateSet() {
+  function generateSet() {
     return new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   }
 
-  generateArrOfSets() {
+ function generateArrOfSets() {
     let a = [];
     for (let i = 0; i < 9; i++) {
-      a.push(this.generateSet());
+      a.push(generateSet());
     }
     return a;
   }
 
-  generateBoard() {
-    let board = this.createEmptyBoard();
-    let rowsConstraints = this.generateArrOfSets();
-    let colsConstraints = this.generateArrOfSets();
-    let squaresConstraints = this.generateArrOfSets();
-    this.generateBoardHelper(
+  function generateBoard() {
+    let board = createEmptyBoard();
+    let rowsConstraints = generateArrOfSets();
+    let colsConstraints = generateArrOfSets();
+    let squaresConstraints = generateArrOfSets();
+    generateBoardHelper(
       board,
       rowsConstraints,
       colsConstraints,
@@ -55,10 +62,10 @@ export class Board {
     return board;
   }
 
-  calculateSquareIndex(i, j) {
+  function calculateSquareIndex(i, j) {
     return 3 * Math.floor(j / 3) + Math.floor(i / 3);
   }
-  generateBoardHelper(
+  function generateBoardHelper(
     board,
     rowsConstraints,
     colsConstraints,
@@ -66,16 +73,16 @@ export class Board {
     i,
     j
   ) {
-    const squareIndex = this.calculateSquareIndex(i, j);
+    const squareIndex = calculateSquareIndex(i, j);
 
-    const set = this.intersection(
+    const set = intersection(
       rowsConstraints[i],
       colsConstraints[j],
       squaresConstraints[squareIndex]
     );
 
     while (set.size !== 0) {
-      const value = this.randomNumberFromSet(set);
+      const value = randomNumberFromSet(set);
       set.delete(value);
       rowsConstraints[i].delete(value);
       colsConstraints[j].delete(value);
@@ -94,7 +101,7 @@ export class Board {
         nextI = i;
         nextJ = j + 1;
       }
-      const success = this.generateBoardHelper(
+      const success = generateBoardHelper(
         board,
         rowsConstraints,
         colsConstraints,
@@ -111,39 +118,39 @@ export class Board {
     }
     return false;
   }
-  intersection(a, b, c) {
+  function intersection(a, b, c) {
     const intersect1 = new Set([...a].filter((x) => b.has(x)));
     return new Set([...intersect1].filter((x) => c.has(x)));
   }
 
-  randomNumberFromSet(set) {
+  function randomNumberFromSet(set) {
     let arr = [...set];
-    let index = this.createRandomNum(arr.length);
+    let index = createRandomNum(arr.length);
     return arr[index];
   }
-  returnCoordinates(i, j, k) {
+  function returnCoordinates(i, j, k) {
     const m = 3 * Math.floor(i / 3) + Math.floor(k / 3);
     const n = 3 * Math.floor(j / 3) + (k % 3);
     return [m, n];
   }
-  solveHelper(board) {
+  function solveHelper(board) {
     let boardCopy = [];
     for (let i = 0; i < 9; i++) {
       let row = [];
       for (let j = 0; j < 9; j++) {
-        let colSet = this.generateSet();
-        let square = this.generateSet();
-        let rowSet = this.generateSet();
+        let colSet = generateSet();
+        let square = generateSet();
+        let rowSet = generateSet();
         if (board[i][j].value !== null) {
           row.push({ isValidated: true, set: new Set([board[i][j].value]) });
         } else {
           for (let k = 0; k < 9; k++) {
-            const [m, n] = this.returnCoordinates(i, j, k);
+            const [m, n] = returnCoordinates(i, j, k);
             rowSet.delete(board[i][k].value);
             colSet.delete(board[k][j].value);
             square.delete(board[m][n].value);
           }
-          const set = this.intersection(rowSet, colSet, square);
+          const set = intersection(rowSet, colSet, square);
           row.push({ isValidated: false, set });
         }
       }
@@ -152,7 +159,7 @@ export class Board {
     return boardCopy;
   }
 
-  hasSolution(boardCopy) {
+  function hasSolution(boardCopy) {
     let hasChanged = true;
     while (hasChanged) {
       hasChanged = false;
@@ -163,7 +170,7 @@ export class Board {
             hasChanged = true;
             const item = [...boardCopy[i][j].set][0];
             for (let k = 0; k < 9; k++) {
-              const [m, n] = this.returnCoordinates(i, j, k);
+              const [m, n] = returnCoordinates(i, j, k);
               if (boardCopy[i][k].set.size > 1) {
                 boardCopy[i][k].set.delete(item);
               }
@@ -188,15 +195,15 @@ export class Board {
     return true;
   }
 
-  createPuzzleBoard(difficulty) {
-    const completedBoard = this.generateBoard();
+  function createPuzzleBoard(difficulty) {
+    const completedBoard = generateBoard();
     const boardCopy = JSON.parse(JSON.stringify(completedBoard));
-    const result = this.solveHelper(boardCopy);
+    const result = solveHelper(boardCopy);
     for (let i = 0; i < difficulty; i++) {
-      let x = this.createRandomNum(9);
-      let y = this.createRandomNum(9);
+      let x = createRandomNum(9);
+      let y = createRandomNum(9);
       let item = boardCopy[x][y].value;
-      if (this.hasSolution(result)) {
+      if (hasSolution(result)) {
         boardCopy[x][y].userSelection = null;
         boardCopy[x][y].isEditable = true;
         boardCopy[x][y].isValidInput = null;
@@ -207,13 +214,10 @@ export class Board {
     }
     return boardCopy;
   }
-}
 
-export const checkInput = (selectedCell) => {
-  if (selectedCell.value === selectedCell.userSelection) {
-    return true;
-  }
-  return false;
+
+export const isUserSelectionCorrect = (selectedCell) => {
+  return selectedCell.value === selectedCell.userSelection
 };
 
 export const isBoardComplete = (board) => {
@@ -237,20 +241,20 @@ export const checkDisplayValue = (cell, solved) => {
   return 'valid';
 };
 
-export const calculateDisplayValue = (input, cell, solved) => {
+export const calculateDisplayValue = ( cell, solved) => {
   if (solved || !cell.isEditable) {
     return cell.value;
   }
   if (cell.userSelection === null) {
     return '';
   }
-  if (input === '') {
-    return '';
-  }
-  if (cell.userSelection) {
+  // if (input === '') {
+  //   return '';
+  // }
+
     return cell.userSelection;
-  }
-  return '';
+
+  // return '';
 };
 
 // one line function discription

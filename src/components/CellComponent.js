@@ -20,12 +20,12 @@ function CellComponent({
   newGame,
 }) {
   const classes = useStyles();
-  const [input, setInput] = useState('');
+  // const [input, setInput] = useState('');
 
   const handleChange = (e) => {
-    setInput('');
+    // setInput('');
     if (e.target.value === '') {
-      setInput('');
+      // setInput('');
       checkUserInput(e.target.value, rowIndex, cellIndex);
     }
     let userInput = parseInt(e.target.value);
@@ -33,22 +33,22 @@ function CellComponent({
       e.target.value = '';
       return null;
     }
-    setInput(userInput);
+    // setInput(userInput);
     checkUserInput(userInput, rowIndex, cellIndex);
   };
 
-  useEffect(() => {
-    if (newGame) {
-      setInput('');
-    }
-  }, [newGame]);
+  // useEffect(() => {
+  //   if (newGame) {
+  //     setInput('');
+  //   }
+  // }, [newGame]);
 
   return (
     <input
       className={classes[checkDisplayValue(cell, solved)]}
       type="text"
       onChange={handleChange}
-      value={calculateDisplayValue(input, cell, solved)}
+      value={calculateDisplayValue(cell, solved)}
       disabled={!cell.isEditable}
       minLength="1"
       maxLength="1"
