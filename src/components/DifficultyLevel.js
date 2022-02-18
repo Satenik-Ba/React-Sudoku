@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import NativeSelect from '@mui/material/NativeSelect';
 
-const DifficultyLevel = ({ gameDifficultyLevel, wonGame }) => {
+const DifficultyLevel = ({ gameDifficultyLevel, gameWon }) => {
   const handleChange = (e) => {
     if (e.target.value === 'easy') {
       gameDifficultyLevel([50, 'Easy']);
@@ -20,7 +20,7 @@ const DifficultyLevel = ({ gameDifficultyLevel, wonGame }) => {
         <NativeSelect
           onChange={handleChange}
           disableUnderline
-          disabled={wonGame}
+          disabled={gameWon}
         >
           <option value={'easy'}>Easy</option>
           <option value={'medium'}>Medium</option>

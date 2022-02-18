@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@mui/styles';
+import React from 'react';
 import { calculateDisplayValue, checkDisplayValue } from '../logic/Sudoku';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   invalid: {
@@ -11,21 +11,11 @@ const useStyles = makeStyles({
   },
 });
 
-function CellComponent({
-  cell,
-  rowIndex,
-  cellIndex,
-  checkUserInput,
-  solved,
-  newGame,
-}) {
+function CellDisplay({ cell, rowIndex, cellIndex, checkUserInput, solved }) {
   const classes = useStyles();
-  // const [input, setInput] = useState('');
 
   const handleChange = (e) => {
-    // setInput('');
     if (e.target.value === '') {
-      // setInput('');
       checkUserInput(e.target.value, rowIndex, cellIndex);
     }
     let userInput = parseInt(e.target.value);
@@ -33,15 +23,8 @@ function CellComponent({
       e.target.value = '';
       return null;
     }
-    // setInput(userInput);
     checkUserInput(userInput, rowIndex, cellIndex);
   };
-
-  // useEffect(() => {
-  //   if (newGame) {
-  //     setInput('');
-  //   }
-  // }, [newGame]);
 
   return (
     <input
@@ -56,4 +39,4 @@ function CellComponent({
   );
 }
 
-export default CellComponent;
+export default CellDisplay;

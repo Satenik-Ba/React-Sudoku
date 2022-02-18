@@ -16,24 +16,25 @@ const useStyles = makeStyles({
   },
 });
 
-const TimeCounter = ({ wonGame, timeCompleted, solved }) => {
+const TimeCounter = ({ gameWon, timeCompleted, solved, newGame }) => {
   const classes = useStyles();
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(() => 0);
   const [timerOn, setTimerOn] = useState(true);
 
   useEffect(() => {
-    if(wonGame) {
+    if (gameWon) {
       setTimerOn(false);
       timeCompleted(time);
-    } else {
+    }
+    if (solved) {
+      setTime(0);
+      setTimerOn(false);
+    }
+    if (newGame) {
       setTime(0);
       setTimerOn(true);
     }
-    if (solved && !wonGame) {
-      setTime(0);
-      setTimerOn(false);
-    }
-  }, [wonGame, timeCompleted, solved]);
+  }, [gameWon, timeCompleted, solved]);
 
   useEffect(() => {
     let interval = null;
@@ -44,7 +45,6 @@ const TimeCounter = ({ wonGame, timeCompleted, solved }) => {
     } else if (!timerOn) {
       clearInterval(interval);
     }
-
     return () => clearInterval(interval);
   }, [timerOn]);
 

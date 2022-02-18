@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
   isUserSelectionCorrect,
   isBoardComplete,
   createBoard,
 } from './logic/Sudoku';
+import CellComponent from './components/CellDisplay';
+import Difficulty from './components/DifficultyLevel';
+import TimeCounter from './components/TimeCounter';
 import Box from '@mui/material/Box';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
-import CellComponent from './components/CellComponent';
-import Difficulty from './components/DifficultyLevel';
-import TimeCounter from './components/TimeCounter';
+import { TryOutlined } from '@mui/icons-material';
 
 const useStyles = makeStyles({
   root: {
@@ -48,7 +49,6 @@ const useStyles = makeStyles({
       marginLeft: '0.5rem',
     },
   },
-
   tableContainer: {
     marginBottom: '3rem',
     marginTop: '1.5rem',
@@ -110,16 +110,14 @@ function App() {
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
   const [board, setBoard] = useState(() => createBoard(50));
-  const [wonGame, setWonGame] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);
   const [newGame, setNewGame] = useState(false);
 
-  console.log(board);
-
   const gameDifficultyLevel = (difficulty) => {
-    setNewGame(true);
     setBoard(() => createBoard(difficulty[0]));
+    setNewGame(true);
     setGameDifficulty(difficulty);
     setSolved(false);
   };
@@ -130,22 +128,24 @@ function App() {
   };
 
   const handleNewGame = () => {
-    setNewGame(true);
     setBoard(() => {
       if (gameDifficulty) {
         return createBoard(gameDifficulty[0]);
       }
       return createBoard(50);
     });
-    setWonGame(false);
+    setNewGame(true);
+    setGameWon(false);
     setSolved(false);
   };
+
   const timeCompleted = (time) => {
     setTimeComp(time);
+    setNewGame(false);
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
-    setNewGame(false);
+    setNewGame(false)
     const selectedCell = board[rowIndex][cellIndex];
     if (input === '') {
       selectedCell.userSelection = null;
@@ -154,9 +154,8 @@ function App() {
     selectedCell.userSelection = input;
     selectedCell.isValidInput = isUserSelectionCorrect(selectedCell);
     setBoard([...board]);
-
     if (isBoardComplete(board)) {
-      setWonGame(true);
+      setGameWon(true);
     }
   };
 
@@ -165,23 +164,24 @@ function App() {
       <h1>Sudoku</h1>
       <Box>
         <TimeCounter
-          wonGame={wonGame}
+          gameWon={gameWon}
           solved={solved}
           timeCompleted={timeCompleted}
+          newGame={newGame}
         />
         <div className={classes.header}>
           <Difficulty
             gameDifficultyLevel={gameDifficultyLevel}
-            wonGame={wonGame}
+            gameWon={gameWon}
           />
           <div>
-            <button onClick={handleSolve} disabled={wonGame}>
+            <button onClick={handleSolve} disabled={gameWon}>
               Solve
             </button>
             <button onClick={handleNewGame}>New Game</button>
           </div>
         </div>
-        {wonGame && (
+        {gameWon && (
           <div className={classes.winOverlay}>
             <div>
               <h1>Excellent!</h1>
@@ -201,7 +201,7 @@ function App() {
             </div>
           </div>
         )}
-        {!wonGame && (
+        {!gameWon && (
           <div className={classes.tableContainer}>
             <Table>
               <TableBody>
@@ -219,7 +219,6 @@ function App() {
                             cellIndex={cellIndex}
                             checkUserInput={checkUserInput}
                             solved={solved}
-                            newGame={newGame}
                           />
                         </TableCell>
                       ))}
