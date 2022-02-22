@@ -34,7 +34,7 @@ const TimeCounter = ({ gameWon, timeCompleted, solved, newGame }) => {
       setTime(0);
       setTimerOn(true);
     }
-  }, [gameWon, timeCompleted, solved]);
+  }, [gameWon, timeCompleted, solved, newGame, time]);
 
   useEffect(() => {
     let interval = null;
