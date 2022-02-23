@@ -20,7 +20,6 @@ const useStyles = makeStyles({
     border: 'none',
     color: '#354f52',
     padding: '0 0.5rem',
-    fontSize: '1.2rem',
     fontSize: '1.5rem',
     '@media (max-width: 900px)': {
       fontSize: '1rem !important',
