@@ -1,8 +1,25 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import NativeSelect from '@mui/material/NativeSelect';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  difficultyDisplay: {
+    fontSize: '1.5rem',
+    '@media (max-width: 926px)': {
+      fontSize: '1rem',
+    },
+  },
+  select: {
+    fontSize: '1.5rem',
+    '@media (max-width: 926px)': {
+      fontSize: '0.9rem !important',
+    },
+  },
+});
 
 const DifficultyLevel = ({ gameDifficultyLevel, gameWon }) => {
+  const classes = useStyles();
   const handleChange = (e) => {
     if (e.target.value === 'easy') {
       gameDifficultyLevel([50, 'Easy']);
@@ -15,9 +32,10 @@ const DifficultyLevel = ({ gameDifficultyLevel, gameWon }) => {
 
   return (
     <Box sx={{ minWidth: 40 }}>
-      <div>
+      <div className={classes.difficultyDisplay}>
         <label>Difficulty </label>
         <NativeSelect
+          className={classes.select}
           onChange={handleChange}
           disableUnderline
           disabled={gameWon}

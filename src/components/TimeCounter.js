@@ -8,11 +8,19 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'right',
     alignItems: 'center',
+    fontSize: '1.2rem',
+    '@media (max-width: 926px)': {
+      fontSize: '0.9rem',
+    },
   },
   icons: {
     border: 'none',
     color: '#354f52',
     padding: '0 0.5rem',
+    fontSize: '1.2rem',
+    '@media (max-width: 926px)': {
+      fontSize: '1rem !important',
+    },
   },
 });
 

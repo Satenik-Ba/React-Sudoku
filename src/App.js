@@ -18,7 +18,6 @@ const useStyles = makeStyles({
   root: {
     textAlign: 'center',
     backgroundColor: 'rgba(39, 74, 119, 0.058)',
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -29,6 +28,13 @@ const useStyles = makeStyles({
     '& h1': {
       fontSize: '1.5rem',
       fontWeight: 600,
+      '@media (max-width: 926px)': {
+        fontSize: '1.2rem',
+        marginTop: '1rem',
+      },
+    },
+    '@media (max-width: 926px)': {
+      backgroundColor: 'rgba(1, 12, 28, 0.2)',
     },
   },
   header: {
@@ -46,6 +52,10 @@ const useStyles = makeStyles({
       borderRadius: '5px',
       border: 'none',
       marginLeft: '0.5rem',
+      '@media (max-width: 926px)': {
+        fontSize: '0.75rem',
+        padding: '0.2rem 1.1rem',
+      },
     },
   },
   tableContainer: {
@@ -53,7 +63,14 @@ const useStyles = makeStyles({
     marginTop: '1.5rem',
     width: 'auto',
     height: 'auto',
+    '@media (max-width: 926px)': {
+      width: '20rem',
+      height: '20rem',
+      marginBottom: '2rem',
+      marginTop: '0.75rem',
+    },
   },
+
   winOverlay: {
     marginBottom: '3rem',
     display: 'flex',
@@ -66,19 +83,42 @@ const useStyles = makeStyles({
     'border-spacing': 0,
     color: 'white',
     background: '#354f52',
+    '@media (max-width: 926px)': {
+      marginBottom: '3rem',
+      marginTop: '1.5rem',
+      height: '23rem',
+      width: '24rem',
+      fontSize: '1rem !important',
+    },
     '& h1': {
       margin: 'auto !important',
       padding: '1rem',
+      '@media (max-width: 926px)': {
+        fontSize: '1rem',
+        margin: '0rem ',
+        padding: '0rem',
+      },
     },
     '& div': {
-      margin: 'auto',
+      margin: '2rem',
       padding: '1rem',
+      '@media (max-width: 926px)': {
+        margin: '30vh',
+        padding: '0.5rem',
+        marginTop: '1rem',
+        marginBottom: '1rem',
+        fontSize: '1rem !important',
+      },
     },
   },
+
   tableRow: {
     height: '3rem',
     '&:nth-of-type(3n):not(:last-child)': {
       borderBottom: '3px solid #354f52',
+    },
+    '@media (max-width: 926px)': {
+      height: '1.5rem',
     },
   },
   tableCell: {
@@ -97,10 +137,18 @@ const useStyles = makeStyles({
       fontSize: '230%',
       textAlign: 'center',
       'caret-color': 'rgba(0,0,0,0)',
+      '@media (max-width: 926px)': {
+        fontSize: '130%',
+        fontWeight: 500,
+      },
       '&:focus': {
         outline: 'none',
         backgroundColor: '#ffb4a2',
       },
+    },
+    '@media (max-width: 926px)': {
+      width: '2rem',
+      height: '2rem',
     },
   },
 });
@@ -144,7 +192,7 @@ function App() {
   };
 
   const checkUserInput = (input, rowIndex, cellIndex) => {
-    setNewGame(false)
+    setNewGame(false);
     const selectedCell = board[rowIndex][cellIndex];
     if (input === '') {
       selectedCell.userSelection = null;
