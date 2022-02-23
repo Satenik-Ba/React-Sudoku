@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     justifyContent: 'right',
     alignItems: 'center',
     fontSize: '1.2rem',
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       fontSize: '0.9rem',
     },
   },
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     color: '#354f52',
     padding: '0 0.5rem',
     fontSize: '1.2rem',
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       fontSize: '1rem !important',
     },
   },

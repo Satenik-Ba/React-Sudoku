@@ -28,12 +28,13 @@ const useStyles = makeStyles({
     '& h1': {
       fontSize: '1.5rem',
       fontWeight: 600,
-      '@media (max-width: 926px)': {
+      marginTop: '2rem',
+      '@media (max-width: 414px)': {
         fontSize: '1.2rem',
         marginTop: '1rem',
       },
     },
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       backgroundColor: 'rgba(1, 12, 28, 0.2)',
     },
   },
@@ -52,7 +53,7 @@ const useStyles = makeStyles({
       borderRadius: '5px',
       border: 'none',
       marginLeft: '0.5rem',
-      '@media (max-width: 926px)': {
+      '@media (max-width: 414px)': {
         fontSize: '0.75rem',
         padding: '0.2rem 1.1rem',
       },
@@ -63,7 +64,7 @@ const useStyles = makeStyles({
     marginTop: '1.5rem',
     width: 'auto',
     height: 'auto',
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       width: '20rem',
       height: '20rem',
       marginBottom: '2rem',
@@ -83,7 +84,7 @@ const useStyles = makeStyles({
     'border-spacing': 0,
     color: 'white',
     background: '#354f52',
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       marginBottom: '3rem',
       marginTop: '1.5rem',
       height: '23rem',
@@ -93,7 +94,7 @@ const useStyles = makeStyles({
     '& h1': {
       margin: 'auto !important',
       padding: '1rem',
-      '@media (max-width: 926px)': {
+      '@media (max-width: 414px)': {
         fontSize: '1rem',
         margin: '0rem ',
         padding: '0rem',
@@ -102,7 +103,7 @@ const useStyles = makeStyles({
     '& div': {
       margin: '2rem',
       padding: '1rem',
-      '@media (max-width: 926px)': {
+      '@media (max-width: 414px)': {
         margin: '30vh',
         padding: '0.5rem',
         marginTop: '1rem',
@@ -117,7 +118,7 @@ const useStyles = makeStyles({
     '&:nth-of-type(3n):not(:last-child)': {
       borderBottom: '3px solid #354f52',
     },
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       height: '1.5rem',
     },
   },
@@ -137,7 +138,7 @@ const useStyles = makeStyles({
       fontSize: '230%',
       textAlign: 'center',
       'caret-color': 'rgba(0,0,0,0)',
-      '@media (max-width: 926px)': {
+      '@media (max-width: 414px)': {
         fontSize: '130%',
         fontWeight: 500,
       },
@@ -146,7 +147,7 @@ const useStyles = makeStyles({
         backgroundColor: '#ffb4a2',
       },
     },
-    '@media (max-width: 926px)': {
+    '@media (max-width: 414px)': {
       width: '2rem',
       height: '2rem',
     },
