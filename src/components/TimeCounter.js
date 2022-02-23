@@ -9,8 +9,11 @@ const useStyles = makeStyles({
     justifyContent: 'right',
     alignItems: 'center',
     fontSize: '1.2rem',
-    '@media (max-width: 414px)': {
-      fontSize: '0.9rem',
+    '@media (max-width: 900px)': {
+      fontSize: '1rem !important',
+    },
+    '@media (max-width: 400px)': {
+      fontSize: '0.7rem !important',
     },
   },
   icons: {
@@ -18,8 +21,12 @@ const useStyles = makeStyles({
     color: '#354f52',
     padding: '0 0.5rem',
     fontSize: '1.2rem',
-    '@media (max-width: 414px)': {
+    fontSize: '1.5rem',
+    '@media (max-width: 900px)': {
       fontSize: '1rem !important',
+    },
+    '@media (max-width: 400px)': {
+      fontSize: '0.7rem !important',
     },
   },
 });

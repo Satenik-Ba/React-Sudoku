@@ -6,14 +6,21 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   difficultyDisplay: {
     fontSize: '1.5rem',
-    '@media (max-width: 414px)': {
+    '@media (max-width: 900px)': {
       fontSize: '1rem',
     },
+    '@media (max-width: 400px)': {
+      fontSize: '0.7rem',
+    },
+   
   },
   select: {
     fontSize: '1.5rem',
-    '@media (max-width: 414px)': {
+    '@media (max-width: 900px)': {
       fontSize: '0.9rem !important',
+    },
+    '@media (max-width: 400px)': {
+      fontSize: '0.7rem !important',
     },
   },
 });

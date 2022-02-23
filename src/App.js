@@ -14,7 +14,7 @@ import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     backgroundColor: 'rgba(39, 74, 119, 0.058)',
@@ -29,13 +29,20 @@ const useStyles = makeStyles({
       fontSize: '1.5rem',
       fontWeight: 600,
       marginTop: '2rem',
-      '@media (max-width: 414px)': {
+      '@media (max-width: 900px)': {
         fontSize: '1.2rem',
         marginTop: '1rem',
       },
+      '@media (max-width: 400px)': {
+        fontSize: '0.8rem',
+        marginTop: '0.7rem',
+      },
     },
-    '@media (max-width: 414px)': {
-      backgroundColor: 'rgba(1, 12, 28, 0.2)',
+    '@media (max-width: 900px)': {
+      minHeight: '70vh'
+    },
+    '@media (max-width: 400px)': {
+      minHeight: '60vh'
     },
   },
   header: {
@@ -53,9 +60,13 @@ const useStyles = makeStyles({
       borderRadius: '5px',
       border: 'none',
       marginLeft: '0.5rem',
-      '@media (max-width: 414px)': {
+      '@media (max-width: 900px)': {
         fontSize: '0.75rem',
         padding: '0.2rem 1.1rem',
+      },
+      '@media (max-width: 400px)': {
+        fontSize: '0.5rem',
+        padding: '0.1rem 0.2rem',
       },
     },
   },
@@ -64,10 +75,16 @@ const useStyles = makeStyles({
     marginTop: '1.5rem',
     width: 'auto',
     height: 'auto',
-    '@media (max-width: 414px)': {
+    '@media (max-width: 900px)': {
       width: '20rem',
       height: '20rem',
       marginBottom: '2rem',
+      marginTop: '0.75rem',
+    },
+    '@media (max-width: 400px)': {
+      width: '14rem',
+      height: '15rem',
+      marginBottom: '1rem',
       marginTop: '0.75rem',
     },
   },
@@ -84,18 +101,31 @@ const useStyles = makeStyles({
     'border-spacing': 0,
     color: 'white',
     background: '#354f52',
-    '@media (max-width: 414px)': {
+    '@media (max-width: 900px)': {
       marginBottom: '3rem',
       marginTop: '1.5rem',
       height: '23rem',
       width: '24rem',
       fontSize: '1rem !important',
     },
+    '@media (max-width: 400px)': {
+      marginBottom: '2rem',
+      marginTop: '1rem',
+      height: '15rem',
+      width: '16rem',
+      fontSize: '1rem !important',
+    },
+
     '& h1': {
       margin: 'auto !important',
       padding: '1rem',
-      '@media (max-width: 414px)': {
+      '@media (max-width: 900px)': {
         fontSize: '1rem',
+        margin: '0rem ',
+        padding: '0rem',
+      },
+      '@media (max-width: 400px)': {
+        fontSize: '0.7rem',
         margin: '0rem ',
         padding: '0rem',
       },
@@ -103,12 +133,19 @@ const useStyles = makeStyles({
     '& div': {
       margin: '2rem',
       padding: '1rem',
-      '@media (max-width: 414px)': {
+      '@media (max-width: 900px)': {
         margin: '30vh',
         padding: '0.5rem',
         marginTop: '1rem',
         marginBottom: '1rem',
         fontSize: '1rem !important',
+      },
+      '@media (max-width: 400px)': {
+        margin: '20vh',
+        padding: '0.5rem',
+        marginTop: '1rem',
+        marginBottom: '1rem',
+        fontSize: '0.7rem !important',
       },
     },
   },
@@ -118,8 +155,11 @@ const useStyles = makeStyles({
     '&:nth-of-type(3n):not(:last-child)': {
       borderBottom: '3px solid #354f52',
     },
-    '@media (max-width: 414px)': {
+    '@media (max-width: 900px)': {
       height: '1.5rem',
+    },
+    '@media (max-width: 400px)': {
+      height: '1rem',
     },
   },
   tableCell: {
@@ -138,26 +178,35 @@ const useStyles = makeStyles({
       fontSize: '230%',
       textAlign: 'center',
       'caret-color': 'rgba(0,0,0,0)',
-      '@media (max-width: 414px)': {
+      '@media (max-width: 900px)': {
         fontSize: '130%',
         fontWeight: 500,
+      },
+      '@media (max-width: 400px)': {
+        fontSize: '100%',
+        textAlign: 'center',
       },
       '&:focus': {
         outline: 'none',
         backgroundColor: '#ffb4a2',
       },
     },
-    '@media (max-width: 414px)': {
+    '@media (max-width: 900px)': {
       width: '2rem',
       height: '2rem',
     },
+    '@media (max-width: 400px)': {
+      width: '1rem',
+      height: '1rem',
+      textAlign: 'center', 
+    },
   },
-});
+}));
 
 function App() {
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [board, setBoard] = useState(() => createBoard(50));
+  const [board, setBoard] = useState(() => createBoard(2));
   const [gameWon, setGameWon] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);

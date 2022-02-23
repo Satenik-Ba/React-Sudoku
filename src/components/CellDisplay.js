@@ -5,9 +5,17 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   invalid: {
     color: '#d00000',
+    '@media (max-width: 400px)': {
+      width: '1.35rem !important',
+      height: '1.35rem !important',
+    },
   },
   valid: {
     color: '#1c1515',
+    '@media (max-width: 400px)': {
+      width: '1.35rem !important',
+      height: '1.35rem !important',
+    },
   },
 });
 
