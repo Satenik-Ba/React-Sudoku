@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     '@media (max-width: 900px)': {
       fontSize: '1rem !important',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       fontSize: '0.7rem !important',
     },
   },
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     '@media (max-width: 900px)': {
       fontSize: '1rem !important',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       fontSize: '0.7rem !important',
     },
   },

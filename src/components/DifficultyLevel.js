@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     '@media (max-width: 900px)': {
       fontSize: '1rem',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       fontSize: '0.7rem',
     },
    
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     '@media (max-width: 900px)': {
       fontSize: '0.9rem !important',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       fontSize: '0.7rem !important',
     },
   },

@@ -14,7 +14,7 @@ import TableCell from '@mui/material/TableCell';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(({
   root: {
     textAlign: 'center',
     backgroundColor: 'rgba(39, 74, 119, 0.058)',
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '1.2rem',
         marginTop: '1rem',
       },
-      '@media (max-width: 400px)': {
+      '@media (max-width: 375px)': {
         fontSize: '0.8rem',
         marginTop: '0.7rem',
       },
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 900px)': {
       minHeight: '70vh'
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       minHeight: '60vh'
     },
   },
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '0.75rem',
         padding: '0.2rem 1.1rem',
       },
-      '@media (max-width: 400px)': {
+      '@media (max-width: 375px)': {
         fontSize: '0.5rem',
         padding: '0.1rem 0.2rem',
       },
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '2rem',
       marginTop: '0.75rem',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       width: '14rem',
       height: '15rem',
       marginBottom: '1rem',
@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
       width: '24rem',
       fontSize: '1rem !important',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       marginBottom: '2rem',
       marginTop: '1rem',
       height: '15rem',
@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '0rem ',
         padding: '0rem',
       },
-      '@media (max-width: 400px)': {
+      '@media (max-width: 375px)': {
         fontSize: '0.7rem',
         margin: '0rem ',
         padding: '0rem',
@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '1rem',
         fontSize: '1rem !important',
       },
-      '@media (max-width: 400px)': {
+      '@media (max-width: 375px)': {
         margin: '20vh',
         padding: '0.5rem',
         marginTop: '1rem',
@@ -158,7 +158,7 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 900px)': {
       height: '1.5rem',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       height: '1rem',
     },
   },
@@ -182,7 +182,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '130%',
         fontWeight: 500,
       },
-      '@media (max-width: 400px)': {
+      '@media (max-width: 375px)': {
         fontSize: '100%',
         textAlign: 'center',
       },
@@ -195,7 +195,7 @@ const useStyles = makeStyles((theme) => ({
       width: '2rem',
       height: '2rem',
     },
-    '@media (max-width: 400px)': {
+    '@media (max-width: 375px)': {
       width: '1rem',
       height: '1rem',
       textAlign: 'center', 
@@ -206,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [gameDifficulty, setGameDifficulty] = useState();
-  const [board, setBoard] = useState(() => createBoard(2));
+  const [board, setBoard] = useState(() => createBoard(50));
   const [gameWon, setGameWon] = useState(false);
   const [timeComp, setTimeComp] = useState(null);
   const [solved, setSolved] = useState(false);
