@@ -1,6 +1,6 @@
 # React Sudoku App
 
-A simple Sudoku game generator with unique solutions and solver built with React Native.
+A simple Sudoku game generator with unique solutions and solver built with ReactJS.
 
 Game has 3 difficulty levels and timer functionality.
 
