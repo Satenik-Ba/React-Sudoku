@@ -1,6 +1,6 @@
 # React Sudoku App
 
-# Play: 
+# Demo 
 https://react-sudoku-game.netlify.app/
 
 A simple Sudoku game generator with unique solutions and solver built with ReactJS.
