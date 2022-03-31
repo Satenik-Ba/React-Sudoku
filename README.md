@@ -1,5 +1,8 @@
 # React Sudoku App
 
+# Play: 
+https://react-sudoku-game.netlify.app/
+
 A simple Sudoku game generator with unique solutions and solver built with ReactJS.
 
 Game has 3 difficulty levels and timer functionality.
