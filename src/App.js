@@ -17,7 +17,6 @@ import TableRow from '@mui/material/TableRow';
 const useStyles = makeStyles(({
   root: {
     textAlign: 'center',
-    backgroundColor: 'rgba(39, 74, 119, 0.058)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
